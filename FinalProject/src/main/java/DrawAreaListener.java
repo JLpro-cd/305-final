@@ -21,39 +21,47 @@ public class DrawAreaListener implements MouseListener, MouseMotionListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         int selectedNodeNumber = nodeSelected(e);
-        if (selectedNodeNumber == -1) {
-            String name = "unnamed" + Blackboard.getInstance().size();
-            Node newNode = new Node(name, e.getX(), e.getY(), 100, 100);
+        if (SwingUtilities.isLeftMouseButton(e)) {
 
-            String result = (String) JOptionPane.showInputDialog(
-                    e.getComponent(),
-                    "Type the name of the new class",
-                    "Class Name",
-                    JOptionPane.PLAIN_MESSAGE,
-                    null,
-                    null,
-                    name
-            );
-            if (result != null && !result.isEmpty()) {
-                Blackboard.getInstance().add(newNode);
-                newNode.setLabel(result);
+            if (selectedNodeNumber == -1) {
+                String name = "unnamed" + Blackboard.getInstance().size();
+                Node newNode = new Node(name, e.getX(), e.getY(), 100, 100);
+
+                String result = (String) JOptionPane.showInputDialog(
+                        e.getComponent(),
+                        "Type the name of the new class",
+                        "Class Name",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        null,
+                        name
+                );
+                if (result != null && !result.isEmpty()) {
+                    Blackboard.getInstance().add(newNode);
+                    newNode.setLabel(result);
+                }
+                Blackboard.getInstance().repaint();
+            } else {
+                Node selectedNode = Blackboard.getInstance().get(selectedNodeNumber);
+                String result = (String) JOptionPane.showInputDialog(
+                        e.getComponent(),
+                        "What would you like to change " + selectedNode.getLabel() + "'s name to?",
+                        "Class Name Change",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        null,
+                        selectedNode.getLabel()
+                );
+                if (result != null && !result.isEmpty()) {
+                    selectedNode.setLabel(result);
+                }
+                Blackboard.getInstance().repaint();
             }
-            Blackboard.getInstance().repaint();
-        } else {
-            Node selectedNode = Blackboard.getInstance().get(selectedNodeNumber);
-            String result = (String) JOptionPane.showInputDialog(
-                    e.getComponent(),
-                    "What would you like to change " + selectedNode.getLabel() + "'s name to?",
-                    "Class Name Change",
-                    JOptionPane.PLAIN_MESSAGE,
-                    null,
-                    null,
-                    selectedNode.getLabel()
-            );
-            if (result != null && !result.isEmpty()) {
-                selectedNode.setLabel(result);
+        } else if (SwingUtilities.isRightMouseButton(e)) {
+            if (selectedNodeNumber != -1) {
+                Node selectedNode = Blackboard.getInstance().get(selectedNodeNumber);
+                NodeDecoratorPanel.showContextMenu(e, selectedNode);
             }
-            Blackboard.getInstance().repaint();
         }
     }
 
