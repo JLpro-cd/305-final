@@ -66,6 +66,10 @@ public class Node {
 		this.label = label;
     }
 
+    public String getLabel() {
+        return label;
+    }
+
     public Point center() {
         return new Point(
                 bounds.x + bounds.width / 2,
