@@ -22,11 +22,11 @@ public class DrawAreaListener implements MouseListener, MouseMotionListener {
     public void mouseClicked(MouseEvent e) {
         if (citySelected(e) == -1) {
             String name = "unnamed" + Blackboard.getInstance().size();
-            Node newNode = new Node(name, e.getX(), e.getY(), 10, 10);
+            Node newNode = new Node(name, e.getX(), e.getY(), 100, 100);
             String result = (String) JOptionPane.showInputDialog(
                     e.getComponent(),
-                    "Type the name of the new city",
-                    "City Name",
+                    "Type the name of the new class",
+                    "Class Name",
                     JOptionPane.PLAIN_MESSAGE,
                     null,
                     null,

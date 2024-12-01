@@ -10,7 +10,7 @@ public class Node {
 
     private final Rectangle bounds;
     private String label;
-    private final static int DEFAULT_SIZE = 10;
+    private final static int DEFAULT_SIZE = 100;
 
     private final StrategyDraw strategyDraw = new StrategyDrawLineCurved();
 
@@ -32,15 +32,21 @@ public class Node {
     }
 
     public void draw(Graphics g) {
-        //Color c = g.getColor();
         int x = bounds.x, y = bounds.y, h = bounds.height, w = bounds.width;
+        g.setColor(Color.black);
         g.drawRect(x, y, w, h);
-        //g.setColor(Color.WHITE);
         g.fillRect(x + 1, y + 1, w - 1, h - 1);
-        //g.setColor(Color.RED);
         g.setFont(new Font("Courier", Font.PLAIN, 10));
-        g.drawString(label, x + w, y);
-        //g.setColor(c);
+        g.setColor(Color.orange);
+
+        FontMetrics fm = g.getFontMetrics(g.getFont());
+        int textWidth = fm.stringWidth(label);
+        int textHeight = fm.getHeight();
+        int textAscent = fm.getAscent();
+
+        int textX = x + (w - textWidth) / 2;
+        int textY = y + (h - textHeight) / 2 + textAscent;
+        g.drawString(label, textX, textY);
     }
 
     public void move(int x, int y) {

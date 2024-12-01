@@ -32,6 +32,7 @@ public class DrawArea extends JPanel implements PropertyChangeListener {
         int[] order = Blackboard.getInstance().travelingOrder();
         g2.setColor(new Color(74, 136, 98, 255));
         for (int i = 0; i < Blackboard.getInstance().size(); i++) {
+            /*
             if (i == Blackboard.getInstance().size() - 1) {
                 Blackboard.getInstance().get(
                         order[i]).drawConnect(Blackboard.getInstance().get(0), g2);
@@ -39,6 +40,8 @@ public class DrawArea extends JPanel implements PropertyChangeListener {
                 Blackboard.getInstance().get(
                         order[i]).drawConnect(Blackboard.getInstance().get(order[i + 1]), g2);
             }
+
+         */
             Blackboard.getInstance().get(i).draw(g2);
         }
     }
