@@ -6,7 +6,7 @@ import java.awt.*;
  * @author javiergs
  * @version 1.0
  */
-public class Node {
+public class Node extends Component {
 
     private final Rectangle bounds;
     private String label;
@@ -18,6 +18,8 @@ public class Node {
         bounds = new Rectangle(x, y, w, h);
         this.label = label;
     }
+
+
 
     public Node (String label, int x, int y) {
 		this(label, x, y, DEFAULT_SIZE, DEFAULT_SIZE);
@@ -31,6 +33,7 @@ public class Node {
         return bounds.y;
     }
 
+    @Override
     public void draw(Graphics g) {
         int x = bounds.x, y = bounds.y, h = bounds.height, w = bounds.width;
         g.setColor(Color.black);

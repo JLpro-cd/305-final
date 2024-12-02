@@ -29,7 +29,7 @@ public class DrawArea extends JPanel implements PropertyChangeListener {
         // draw nodes and connections
         Graphics2D g2 = (Graphics2D) g;
         // this is a problem
-        int[] order = Blackboard.getInstance().travelingOrder();
+        //int[] order = Blackboard.getInstance().travelingOrder();
         g2.setColor(new Color(74, 136, 98, 255));
         for (int i = 0; i < Blackboard.getInstance().size(); i++) {
             /*

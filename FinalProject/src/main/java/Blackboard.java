@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Blackboard extends PropertyChangeSupport {
 
     private static Blackboard instance;
-    private final ArrayList<Node> nodes = new ArrayList<>();
+    private final ArrayList<Component> nodes = new ArrayList<>();
 
     private Strategy strategy = new StrategyAsQueue();
 
@@ -29,7 +29,7 @@ public class Blackboard extends PropertyChangeSupport {
         nodes.add(node);
     }
 
-    public Node get(int index) {
+    public Component get(int index) {
         return nodes.get(index);
     }
 
@@ -37,9 +37,16 @@ public class Blackboard extends PropertyChangeSupport {
         return nodes.size();
     }
 
-    public int[] travelingOrder() {
-        return strategy.algorithm(nodes);
+    public void updateNode(Component oldNode, Component newNode) {
+        int index = nodes.indexOf(oldNode);
+        nodes.set(index, newNode);
     }
+
+    public ArrayList<Component> getNodes() {
+        return nodes;
+    }
+
+    //public int[] travelingOrder() {return strategy.algorithm(nodes);}
 
     public void repaint() {
         firePropertyChange("repaint", 0, 1);
