@@ -14,7 +14,7 @@ public class Node extends Component {
     private final static int DEFAULT_SIZE = 100;
     private ArrayList<Decorator> decorators = new ArrayList<Decorator>();
 
-    private final StrategyDraw strategyDraw = new StrategyDrawLineCurved();
+    private final StrategyDraw strategyDraw = new StrategyDrawLineNode();
 
     public Node(String label, int x, int y, int w, int h) {
         bounds = new Rectangle(x, y, w, h);
@@ -79,9 +79,6 @@ public class Node extends Component {
         bounds.y = y;
     }
 
-    //public void drawConnect(Node b, Graphics2D g) {
-    //    strategyDraw.drawConnect(this, b, g);
-    //}
 
     public boolean contains(int x, int y) {
 		return bounds.contains(x, y);

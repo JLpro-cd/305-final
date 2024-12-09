@@ -11,6 +11,11 @@ public class DrawAreaListener implements MouseListener, MouseMotionListener {
     private Point startPoint = null;
     private Point endPoint = null;
     private int selected = -1;
+    private Decorator startDecoration;
+    boolean isDrawingDecorationLine = false;
+    private Point currentMouseLocation = null;
+    private Node startNode = null;
+
 
     private int nodeSelected(MouseEvent e) {
         int nodeSelected = -1;
@@ -88,8 +93,8 @@ public class DrawAreaListener implements MouseListener, MouseMotionListener {
         if (SwingUtilities.isLeftMouseButton(e)) {
             if (selectedNodeNumber == -1) {
                 if (!(decorationSelected[0] == -1 && decorationSelected[1] == -1)) {
-                    //Node n = ((Node)Blackboard.getInstance().get(decorationSelected[0]));
-                    //System.out.println(n.getDecorators().get(decorationSelected[1]));
+                    int nodeIndex = decorationSelected[0];
+                    int decorationIndex = decorationSelected[1];
                     Component component = Blackboard.getInstance().get(decorationSelected[0]);
                     Node n;
 
@@ -99,8 +104,37 @@ public class DrawAreaListener implements MouseListener, MouseMotionListener {
                         n = (Node) component;
                     }
 
-                    System.out.println("TESTING STATEMENT");
+                    Decorator clickedDeco = n.getDecorators().get(decorationIndex);
 
+                    if (!isDrawingDecorationLine) {
+                        startDecoration = clickedDeco;
+                        isDrawingDecorationLine = true;
+                        currentMouseLocation = e.getPoint();
+                        Blackboard.getInstance().addDecorationMovingLineStart(currentMouseLocation);
+                        System.out.println("Started drawing decoration line");
+                    } else {
+                        Decorator endDecoration = clickedDeco;
+                        if (endDecoration != null && startDecoration != endDecoration) {
+                            ArrayList<Point> newLine = new ArrayList<>();
+                            newLine.add(startDecoration.getCenterPoint());
+                            newLine.add(endDecoration.getCenterPoint());
+                            Blackboard.getInstance().getDecoratorLines().add(newLine);
+
+                            isDrawingDecorationLine = false;
+                            startDecoration = null;
+                            currentMouseLocation = null;
+                            System.out.println("finalizing drawing decoration line");
+                            Blackboard.getInstance().clearDecorationMovingLine();
+                            Blackboard.getInstance().repaint();
+                        } else {
+                            isDrawingDecorationLine = false;
+                            startDecoration = null;
+                            currentMouseLocation = null;
+                            Blackboard.getInstance().clearDecorationMovingLine();
+                            Blackboard.getInstance().repaint();
+                            System.out.println("Clicked on the same decoration");
+                        }
+                    }
                 } else {
                     String name = "unnamed" + Blackboard.getInstance().size();
                     Node newNode = new Node(name, e.getX(), e.getY(), 100, 100);
@@ -118,6 +152,7 @@ public class DrawAreaListener implements MouseListener, MouseMotionListener {
                         Blackboard.getInstance().add(newNode);
                         newNode.setLabel(result);
                     }
+
                     Blackboard.getInstance().repaint();
                 }
             } else {
@@ -130,19 +165,49 @@ public class DrawAreaListener implements MouseListener, MouseMotionListener {
                     selectedNode = (Node) component;
                 }
 
-                String result = (String) JOptionPane.showInputDialog(
-                        e.getComponent(),
-                        "What would you like to change " + selectedNode.getLabel() + "'s name to?",
-                        "Class Name Change",
-                        JOptionPane.PLAIN_MESSAGE,
-                        null,
-                        null,
-                        selectedNode.getLabel()
-                );
-                if (result != null && !result.isEmpty()) {
-                    selectedNode.setLabel(result);
+                if (Blackboard.getInstance().getCurrentNodeConnectionType().equals("None")) { // Node clicked but connector not selected; not drawing line
+                    String result = (String) JOptionPane.showInputDialog(
+                            e.getComponent(),
+                            "What would you like to change " + selectedNode.getLabel() + "'s name to?",
+                            "Class Name Change",
+                            JOptionPane.PLAIN_MESSAGE,
+                            null,
+                            null,
+                            selectedNode.getLabel()
+                    );
+                    if (result != null && !result.isEmpty()) {
+                        selectedNode.setLabel(result);
+                    }
+                    Blackboard.getInstance().repaint();
+                } else {
+                    if (startNode == null) { // First click of process; Create line that moves with mouse
+                        Blackboard.getInstance().initializeNodeLines();
+                        startNode = selectedNode;
+                        currentMouseLocation = e.getPoint();
+                        Blackboard.getInstance().addNodeMovingLineStart(currentMouseLocation);
+                        System.out.println("Started drawing node line");
+                    } else { // Second click of process; Finalize line
+                        if (selectedNode != null && selectedNode != startNode) {
+                            NodeLine temp = new NodeLine(Blackboard.getInstance().getCurrentNodeConnectionType(), startNode.center(), selectedNode.center());
+                            Blackboard.getInstance().getNodeLines().add(temp);
+                            Blackboard.getInstance().clearNodeMovingLine();
+                            Blackboard.getInstance().repaint();
+                            Blackboard.getInstance().setCurrentNodeConnectionType("None");
+                            startNode = null;
+                            currentMouseLocation = null;
+                            System.out.println("Finalized drawing node line");
+                        } else {
+                            startNode = null;
+                            currentMouseLocation = null;
+                            Blackboard.getInstance().setCurrentNodeConnectionType("None");
+                            Blackboard.getInstance().clearNodeMovingLine();
+                            Blackboard.getInstance().repaint();
+                            System.out.println("Clicked on the same Node");
+                        }
+                    }
+
+
                 }
-                Blackboard.getInstance().repaint();
             }
         } else if (SwingUtilities.isRightMouseButton(e)) {
             if (selectedNodeNumber != -1) {
@@ -188,7 +253,7 @@ public class DrawAreaListener implements MouseListener, MouseMotionListener {
             preX = node.getX() - e.getX();
             preY = node.getY() - e.getY();
             node.move(preX + e.getX(), preY + e.getY());
-            Blackboard.getInstance().repaint();
+            //Blackboard.getInstance().repaint();
         }
     }
 
@@ -197,70 +262,47 @@ public class DrawAreaListener implements MouseListener, MouseMotionListener {
 
         if (selected == -1) return;
 
-            Component component = Blackboard.getInstance().get(selected);
-            Node node;
+        Component component = Blackboard.getInstance().get(selected);
+        Node node;
 
-            if (component instanceof Decorator) {
-                node = ((Decorator) component).getBaseNode();
-            } else {
-                node = (Node) component;
-            }
+        if (component instanceof Decorator) {
+            node = ((Decorator) component).getBaseNode();
+        } else {
+            node = (Node) component;
+        }
 
 
-            node.move(preX + e.getX(), preY + e.getY());
-            //endPoint = new Point(e.getX() + decPreX, e.getY() + decPreY);
-            endPoint = e.getPoint();
+        node.move(preX + e.getX(), preY + e.getY());
+        endPoint = e.getPoint();
 
-            for(int i = 0; i < Blackboard.getInstance().getDecoratorLines().size(); i++){
-                for(int j = 0; j < Blackboard.getInstance().getDecoratorLines().get(i).size(); j++){
-                    Blackboard.getInstance().getDecoratorLines().get(i).get(1).setLocation(endPoint);
-                }
-            }
+        if (!(Blackboard.getInstance().getNodeLines().size() == 1)) {
+            Blackboard.getInstance().clearAllNodeLines();
+        }
 
-            Blackboard.getInstance().repaint();
+        if (!(Blackboard.getInstance().getDecoratorLines().size() == 1)) {
+            Blackboard.getInstance().clearAllDecorationLines();
+        }
+
+        Blackboard.getInstance().repaint();
 
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        if (selected == -1) return;
 
-        int[] decorationSelected = decorationSelected(e);
+        Component component = Blackboard.getInstance().get(selected);
+        Node node;
 
-        if (!(decorationSelected[0] == -1 && decorationSelected[1] == -1)) {
-
-            Component component = Blackboard.getInstance().get(decorationSelected[0]);
-            Node n;
-
-            if (component instanceof Decorator) {
-                n = ((Decorator) component).getBaseNode();
-            } else {
-                n = (Node) component;
-            }
-
-            endPoint = e.getPoint();
-            ArrayList<Point> newLine = new ArrayList<>();
-            newLine.add(startPoint);
-            newLine.add(endPoint);
-            Blackboard.getInstance().getDecoratorLines().add(newLine);
-            Blackboard.getInstance().repaint();
-            //strategyDrawLineDecorator.drawLineWhileDragging(g, startPoint, endPoint);
-
-        }else {
-            if (selected == -1) return;
-
-            Component component = Blackboard.getInstance().get(selected);
-            Node node;
-
-            if (component instanceof Decorator) {
-                node = ((Decorator) component).getBaseNode();
-            } else {
-                node = (Node) component;
-            }
-
-            node.move(preX + e.getX(), preY + e.getY());
-            Blackboard.getInstance().repaint();
-            selected = nodeSelected(e);
+        if (component instanceof Decorator) {
+            node = ((Decorator) component).getBaseNode();
+        } else {
+            node = (Node) component;
         }
+
+        node.move(preX + e.getX(), preY + e.getY());
+        //Blackboard.getInstance().repaint();
+        selected = nodeSelected(e);
     }
 
     @Override
@@ -273,5 +315,16 @@ public class DrawAreaListener implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
+        if (!(startNode == null)) {
+            currentMouseLocation = e.getPoint();
+            Blackboard.getInstance().addNodeMovingLineEnd(currentMouseLocation);
+            Blackboard.getInstance().repaint();
+        }
+
+        if (isDrawingDecorationLine) {
+            currentMouseLocation = e.getPoint();
+            Blackboard.getInstance().addDecorationMovingLineEnd(currentMouseLocation);
+            Blackboard.getInstance().repaint();
+        }
     }
 }

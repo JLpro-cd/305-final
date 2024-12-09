@@ -30,6 +30,12 @@ public class MenuBar extends JPanel {
         JMenuItem inheritanceItem = new JMenuItem("Inheritance");
         JMenuItem RealizationItem = new JMenuItem("Realization");
 
+        aggregationItem.addActionListener(e -> Blackboard.getInstance().setCurrentNodeConnectionType("Aggregation"));
+        compositionItem.addActionListener(e -> Blackboard.getInstance().setCurrentNodeConnectionType("Composition"));
+        associationItem.addActionListener(e -> Blackboard.getInstance().setCurrentNodeConnectionType("Association"));
+        inheritanceItem.addActionListener(e -> Blackboard.getInstance().setCurrentNodeConnectionType("Inheritance"));
+        RealizationItem.addActionListener(e -> Blackboard.getInstance().setCurrentNodeConnectionType("Realization"));
+
         boxConnectorMenu.add(aggregationItem);
         boxConnectorMenu.add(compositionItem);
         boxConnectorMenu.add(associationItem);

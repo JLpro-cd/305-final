@@ -4,6 +4,8 @@ public abstract class Decorator extends Component {
     protected Component component;
     private int x;
     private int y;
+    private static final int WIDTH = 20;
+    private static final int HEIGHT = 20;
 
     public Decorator(Component component) {
         this.component = component;
@@ -33,6 +35,10 @@ public abstract class Decorator extends Component {
 
     public int getY(){
         return y;
+    }
+
+    public Point getCenterPoint() {
+        return new Point(x + WIDTH / 2, y + HEIGHT / 2);
     }
 
     public void draw(Graphics g) {
