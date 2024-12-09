@@ -1,7 +1,9 @@
 import java.awt.*;
 import java.awt.geom.QuadCurve2D;
 
+
 public class StrategyDrawLineCurved implements StrategyDraw {
+
 
     public void drawConnect(Node node, Node b, Graphics g) {
         if (node == null || b == null || node == b) {
@@ -23,4 +25,13 @@ public class StrategyDrawLineCurved implements StrategyDraw {
         g2d.draw(q);
     }
 
+    @Override
+    public void drawLineWhileDragging(Graphics G, Point start, Point end) {
+
+    }
+
+    @Override
+    public void createLine(Graphics g, Point start, Point end) {
+
+    }
 }

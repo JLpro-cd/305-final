@@ -1,11 +1,15 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 
 public class DrawAreaListener implements MouseListener, MouseMotionListener {
 
     private int preX, preY;
+    private Point startPoint = null;
+    private Point endPoint = null;
     private int selected = -1;
 
     private int nodeSelected(MouseEvent e) {
@@ -41,7 +45,6 @@ public class DrawAreaListener implements MouseListener, MouseMotionListener {
 
     private int[] decorationSelected(MouseEvent e) { // looks for decorations, if found returns [node index, decoration index]
         int[] decorationSelected = {-1, -1};
-        //System.out.println(e.getX() + "NITE" + e.getY());
 
         for (int i = 0; i < Blackboard.getInstance().size(); i++) {
             Component component = Blackboard.getInstance().get(i);
@@ -53,9 +56,7 @@ public class DrawAreaListener implements MouseListener, MouseMotionListener {
                 node = (Node) component;
             }
 
-            node.printDecorators();
 
-            //System.out.println("SIZE" + node.getDecorators().size());
             for (int j = 0; j < node.getDecorators().size(); j++) {
                 Decorator decorator = node.getDecorators().get(j);
 
@@ -66,7 +67,6 @@ public class DrawAreaListener implements MouseListener, MouseMotionListener {
                 int width = 25;
                 int height = 25;
 
-                //System.out.println(dx + "FORT" + dy);
 
                 // Check if the click is within the 20x20 bounds of the decorator
                 if (e.getX() >= dx && e.getX() <= dx + width &&
@@ -99,7 +99,8 @@ public class DrawAreaListener implements MouseListener, MouseMotionListener {
                         n = (Node) component;
                     }
 
-                    System.out.println(n.getDecorators().get(decorationSelected[1]));
+                    System.out.println("TESTING STATEMENT");
+
                 } else {
                     String name = "unnamed" + Blackboard.getInstance().size();
                     Node newNode = new Node(name, e.getX(), e.getY(), 100, 100);
@@ -151,59 +152,115 @@ public class DrawAreaListener implements MouseListener, MouseMotionListener {
         }
     }
 
+
     @Override
     public void mousePressed(MouseEvent e) {
         selected = nodeSelected(e);
-        if (selected == -1) return;
 
-        Component component = Blackboard.getInstance().get(selected);
-        Node node;
+        int[] decorationSelected = decorationSelected(e);
 
-        if (component instanceof Decorator) {
-            node = ((Decorator) component).getBaseNode();
-        } else {
-            node = (Node) component;
+        if (!(decorationSelected[0] == -1 && decorationSelected[1] == -1)) {
+
+            Component component = Blackboard.getInstance().get(decorationSelected[0]);
+            Node n;
+
+            if (component instanceof Decorator) {
+                n = ((Decorator) component).getBaseNode();
+            } else {
+                n = (Node) component;
+            }
+
+            startPoint = e.getPoint();
+
+        }else {
+
+            if(selected == -1){return;}
+
+            Component component = Blackboard.getInstance().get(selected);
+            Node node;
+
+            if (component instanceof Decorator) {
+                node = ((Decorator) component).getBaseNode();
+            } else {
+                node = (Node) component;
+            }
+
+            preX = node.getX() - e.getX();
+            preY = node.getY() - e.getY();
+            node.move(preX + e.getX(), preY + e.getY());
+            Blackboard.getInstance().repaint();
         }
-
-        preX = node.getX() - e.getX();
-        preY = node.getY() - e.getY();
-        node.move(preX + e.getX(), preY + e.getY());
-        Blackboard.getInstance().repaint();
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
+
         if (selected == -1) return;
 
-        Component component = Blackboard.getInstance().get(selected);
-        Node node;
+            Component component = Blackboard.getInstance().get(selected);
+            Node node;
 
-        if (component instanceof Decorator) {
-            node = ((Decorator) component).getBaseNode();
-        } else {
-            node = (Node) component;
-        }
+            if (component instanceof Decorator) {
+                node = ((Decorator) component).getBaseNode();
+            } else {
+                node = (Node) component;
+            }
 
-        node.move(preX + e.getX(), preY + e.getY());
-        Blackboard.getInstance().repaint();
+
+            node.move(preX + e.getX(), preY + e.getY());
+            //endPoint = new Point(e.getX() + decPreX, e.getY() + decPreY);
+            endPoint = e.getPoint();
+
+            for(int i = 0; i < Blackboard.getInstance().getDecoratorLines().size(); i++){
+                for(int j = 0; j < Blackboard.getInstance().getDecoratorLines().get(i).size(); j++){
+                    Blackboard.getInstance().getDecoratorLines().get(i).get(1).setLocation(endPoint);
+                }
+            }
+
+            Blackboard.getInstance().repaint();
+
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (selected == -1) return;
 
-        Component component = Blackboard.getInstance().get(selected);
-        Node node;
+        int[] decorationSelected = decorationSelected(e);
 
-        if (component instanceof Decorator) {
-            node = ((Decorator) component).getBaseNode();
-        } else {
-            node = (Node) component;
+        if (!(decorationSelected[0] == -1 && decorationSelected[1] == -1)) {
+
+            Component component = Blackboard.getInstance().get(decorationSelected[0]);
+            Node n;
+
+            if (component instanceof Decorator) {
+                n = ((Decorator) component).getBaseNode();
+            } else {
+                n = (Node) component;
+            }
+
+            endPoint = e.getPoint();
+            ArrayList<Point> newLine = new ArrayList<>();
+            newLine.add(startPoint);
+            newLine.add(endPoint);
+            Blackboard.getInstance().getDecoratorLines().add(newLine);
+            Blackboard.getInstance().repaint();
+            //strategyDrawLineDecorator.drawLineWhileDragging(g, startPoint, endPoint);
+
+        }else {
+            if (selected == -1) return;
+
+            Component component = Blackboard.getInstance().get(selected);
+            Node node;
+
+            if (component instanceof Decorator) {
+                node = ((Decorator) component).getBaseNode();
+            } else {
+                node = (Node) component;
+            }
+
+            node.move(preX + e.getX(), preY + e.getY());
+            Blackboard.getInstance().repaint();
+            selected = nodeSelected(e);
         }
-
-        node.move(preX + e.getX(), preY + e.getY());
-        Blackboard.getInstance().repaint();
-        selected = nodeSelected(e);
     }
 
     @Override

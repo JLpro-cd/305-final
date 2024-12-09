@@ -11,6 +11,8 @@ import java.beans.PropertyChangeListener;
  */
 public class DrawArea extends JPanel implements PropertyChangeListener {
 
+    private StrategyDrawLineDecorator strategyDrawLineDecorator = new StrategyDrawLineDecorator();
+
     public DrawArea() {
         setBackground(Color.WHITE);
     }
@@ -31,6 +33,19 @@ public class DrawArea extends JPanel implements PropertyChangeListener {
         // this is a problem
         //int[] order = Blackboard.getInstance().travelingOrder();
         g2.setColor(new Color(74, 136, 98, 255));
+
+        if(!Blackboard.getInstance().getDecoratorLines().isEmpty()){
+            int k = 0;
+
+            for(int i = 0; i < Blackboard.getInstance().getDecoratorLines().size(); i++){
+                for(int j = 0; j < Blackboard.getInstance().getDecoratorLines().get(i).size(); j++){
+                    strategyDrawLineDecorator.drawLineWhileDragging(g,Blackboard.getInstance().getDecoratorLines().get(i).get(k),Blackboard.getInstance().getDecoratorLines().get(i).get(k+1));
+
+                }
+            }
+
+        }
+
         for (int i = 0; i < Blackboard.getInstance().size(); i++) {
             /*
             if (i == Blackboard.getInstance().size() - 1) {

@@ -79,9 +79,9 @@ public class Node extends Component {
         bounds.y = y;
     }
 
-    public void drawConnect(Node b, Graphics2D g) {
-        strategyDraw.drawConnect(this, b, g);
-    }
+    //public void drawConnect(Node b, Graphics2D g) {
+    //    strategyDraw.drawConnect(this, b, g);
+    //}
 
     public boolean contains(int x, int y) {
 		return bounds.contains(x, y);

@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
@@ -12,6 +13,7 @@ public class Blackboard extends PropertyChangeSupport {
 
     private static Blackboard instance;
     private final ArrayList<Component> nodes = new ArrayList<>();
+    private final ArrayList<ArrayList<Point>> decoratorLines = new ArrayList<>();
 
     private Strategy strategy = new StrategyAsQueue();
 
@@ -31,6 +33,10 @@ public class Blackboard extends PropertyChangeSupport {
 
     public Component get(int index) {
         return nodes.get(index);
+    }
+
+    public ArrayList<ArrayList<Point>> getDecoratorLines() {
+        return decoratorLines;
     }
 
     public int size() {

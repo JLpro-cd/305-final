@@ -5,7 +5,6 @@ public abstract class Decorator extends Component {
     private int x;
     private int y;
 
-
     public Decorator(Component component) {
         this.component = component;
     }
