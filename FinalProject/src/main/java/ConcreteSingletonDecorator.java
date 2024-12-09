@@ -2,9 +2,6 @@ import java.awt.*;
 
 public class ConcreteSingletonDecorator extends Decorator {
 
-    int offsetX = 100;
-    int offsetY = 40;
-
     public ConcreteSingletonDecorator(Component component) {
         super(component);
     }
@@ -14,12 +11,12 @@ public class ConcreteSingletonDecorator extends Decorator {
         super.draw(g);
 
         Node node = getBaseNode();
-        int x = node.getX() + offsetX;
-        int y = node.getY() + offsetY;
+        this.setX(node.getX() + 100);
+        this.setY(node.getY() + 40);
 
         g.setColor(Color.red);
-        g.fillOval(x,y,20,20);
+        g.fillOval(this.getX(),this.getY(),20,20);
         g.setColor(Color.black);
-        g.drawString("S",x + 5,y + 15);
+        g.drawString("S",this.getX() + 5,this.getY() + 15);
     }
 }

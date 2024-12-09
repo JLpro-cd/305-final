@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Node represents a node in the graph
@@ -11,6 +12,7 @@ public class Node extends Component {
     private final Rectangle bounds;
     private String label;
     private final static int DEFAULT_SIZE = 100;
+    private ArrayList<Decorator> decorators = new ArrayList<Decorator>();
 
     private final StrategyDraw strategyDraw = new StrategyDrawLineCurved();
 
@@ -18,8 +20,6 @@ public class Node extends Component {
         bounds = new Rectangle(x, y, w, h);
         this.label = label;
     }
-
-
 
     public Node (String label, int x, int y) {
 		this(label, x, y, DEFAULT_SIZE, DEFAULT_SIZE);
@@ -31,6 +31,28 @@ public class Node extends Component {
 
     public int getY() {
         return bounds.y;
+    }
+
+    public ArrayList<Decorator> getDecorators() {
+        return decorators;
+    }
+
+    public void printDecorators() {
+        System.out.println("printing decorators: size = " + decorators.size());
+        for (Decorator decorator : decorators) {
+            System.out.println(decorator);
+        }
+    }
+
+    public boolean checkIfExists(Decorator decorator) {
+        // Iterate through the list of decorators
+        for (Decorator existingDecorator : decorators) {
+            // Check if the type (class) of the decorator already exists in the list
+            if (existingDecorator.getClass().equals(decorator.getClass())) {
+                return true;  // If a decorator of the same type exists, return true
+            }
+        }
+        return false;  // If no decorator of the same type is found, return false
     }
 
     @Override

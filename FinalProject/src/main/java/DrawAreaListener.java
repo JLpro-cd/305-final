@@ -24,32 +24,101 @@ public class DrawAreaListener implements MouseListener, MouseMotionListener {
                 nodeSelected = i;
             }
         }
+
         return nodeSelected;
+    }
+
+    /*
+    * Iterate through decorations in a NOde
+    * Loop through Nodes,
+    *   Check for instance since it can be either node or decoration
+    *   if decoration, getBaseNode go back to step 1
+    * Loop through Decorations,
+    *   Determine if that decoration's coordinates were referenced
+    * Else
+    * return sentinel value
+    * */
+
+    private int[] decorationSelected(MouseEvent e) { // looks for decorations, if found returns [node index, decoration index]
+        int[] decorationSelected = {-1, -1};
+        //System.out.println(e.getX() + "NITE" + e.getY());
+
+        for (int i = 0; i < Blackboard.getInstance().size(); i++) {
+            Component component = Blackboard.getInstance().get(i);
+            Node node;
+
+            if (component instanceof Decorator) {
+                node = ((Decorator) component).getBaseNode();
+            } else {
+                node = (Node) component;
+            }
+
+            node.printDecorators();
+
+            //System.out.println("SIZE" + node.getDecorators().size());
+            for (int j = 0; j < node.getDecorators().size(); j++) {
+                Decorator decorator = node.getDecorators().get(j);
+
+
+                // Assuming all decorators have a width and height of 20x20
+                int dx = decorator.getX();
+                int dy = decorator.getY();
+                int width = 25;
+                int height = 25;
+
+                //System.out.println(dx + "FORT" + dy);
+
+                // Check if the click is within the 20x20 bounds of the decorator
+                if (e.getX() >= dx && e.getX() <= dx + width &&
+                        e.getY() >= dy && e.getY() <= dy + height) {
+                    decorationSelected[0] = i;
+                    decorationSelected[1] = j;
+                    return decorationSelected;
+                }
+            }
+        }
+        return decorationSelected;
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         int selectedNodeNumber = nodeSelected(e);
+        int[] decorationSelected = decorationSelected(e);
 
         if (SwingUtilities.isLeftMouseButton(e)) {
             if (selectedNodeNumber == -1) {
-                String name = "unnamed" + Blackboard.getInstance().size();
-                Node newNode = new Node(name, e.getX(), e.getY(), 100, 100);
+                if (!(decorationSelected[0] == -1 && decorationSelected[1] == -1)) {
+                    //Node n = ((Node)Blackboard.getInstance().get(decorationSelected[0]));
+                    //System.out.println(n.getDecorators().get(decorationSelected[1]));
+                    Component component = Blackboard.getInstance().get(decorationSelected[0]);
+                    Node n;
 
-                String result = (String) JOptionPane.showInputDialog(
-                        e.getComponent(),
-                        "Type the name of the new class",
-                        "Class Name",
-                        JOptionPane.PLAIN_MESSAGE,
-                        null,
-                        null,
-                        name
-                );
-                if (result != null && !result.isEmpty()) {
-                    Blackboard.getInstance().add(newNode);
-                    newNode.setLabel(result);
+                    if (component instanceof Decorator) {
+                        n = ((Decorator) component).getBaseNode();
+                    } else {
+                        n = (Node) component;
+                    }
+
+                    System.out.println(n.getDecorators().get(decorationSelected[1]));
+                } else {
+                    String name = "unnamed" + Blackboard.getInstance().size();
+                    Node newNode = new Node(name, e.getX(), e.getY(), 100, 100);
+
+                    String result = (String) JOptionPane.showInputDialog(
+                            e.getComponent(),
+                            "Type the name of the new class",
+                            "Class Name",
+                            JOptionPane.PLAIN_MESSAGE,
+                            null,
+                            null,
+                            name
+                    );
+                    if (result != null && !result.isEmpty()) {
+                        Blackboard.getInstance().add(newNode);
+                        newNode.setLabel(result);
+                    }
+                    Blackboard.getInstance().repaint();
                 }
-                Blackboard.getInstance().repaint();
             } else {
                 Component component = Blackboard.getInstance().get(selectedNodeNumber);
                 Node selectedNode;

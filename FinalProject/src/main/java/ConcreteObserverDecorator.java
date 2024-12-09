@@ -1,8 +1,6 @@
 import java.awt.*;
 
 public class ConcreteObserverDecorator extends Decorator {
-    private int offsetX = 100;
-    private int offsetY = 0;
 
     public ConcreteObserverDecorator(Component component) {
         super(component);
@@ -14,13 +12,13 @@ public class ConcreteObserverDecorator extends Decorator {
         super.draw(g);
 
         Node node = getBaseNode();
-        int x = node.getX() + offsetX;
-        int y = node.getY() + offsetY;
+        this.setX(node.getX() + 100);
+        this.setY(node.getY() + 0);
 
         g.setColor(Color.red);
-        g.fillOval(x,y,20,20);
+        g.fillOval(this.getX(),this.getY(),20,20);
         g.setColor(Color.black);
-        g.drawString("O",x + 5,y + 15);
+        g.drawString("O",this.getX() + 5,this.getY() + 15);
         //g.fill
         //g.drawString("Observer", x, y);
     }

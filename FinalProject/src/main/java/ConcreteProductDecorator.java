@@ -2,9 +2,6 @@ import java.awt.*;
 
 public class ConcreteProductDecorator extends Decorator {
 
-    int offsetX = 40;
-    int offsetY = 100;
-
     public ConcreteProductDecorator(Component component) {
         super(component);
     }
@@ -13,12 +10,12 @@ public class ConcreteProductDecorator extends Decorator {
         super.draw(g);
 
         Node node = getBaseNode();
-        int x = node.getX() + offsetX;
-        int y = node.getY() + offsetY;
+        this.setX(node.getX() + 40);
+        this.setY(node.getY() + 100);
 
         g.setColor(Color.red);
-        g.fillOval(x,y,20,20);
+        g.fillOval(this.getX(),this.getY(),20,20);
         g.setColor(Color.black);
-        g.drawString("P",x + 5,y + 15);
+        g.drawString("P",this.getX() + 5,this.getY() + 15);
     }
 }

@@ -46,6 +46,7 @@ public class NodeDecoratorPanel {
 
     private static void applyDecoration(Component rightClickedNode, String decoration) {
         Component decoratedNode = null;
+        Node n;
 
         int index = Blackboard.getInstance().getNodes().indexOf(rightClickedNode);
 
@@ -55,6 +56,8 @@ public class NodeDecoratorPanel {
         }
 
         Component currentNode = Blackboard.getInstance().getNodes().get(index);
+
+
 
 
         if (decoration.equals("Observer")) {
@@ -75,6 +78,22 @@ public class NodeDecoratorPanel {
             decoratedNode = new ConcreteFactoryDecorator(currentNode);
         } else if (decoration.equals("Product")) {
             decoratedNode = new ConcreteProductDecorator(currentNode);
+        }
+
+        if(!(currentNode instanceof Node)){
+            n = ((Decorator)currentNode).getBaseNode();
+            if (!(n.checkIfExists((Decorator) decoratedNode))) {
+                n.getDecorators().add((Decorator)decoratedNode);
+            }
+            //System.out.println("printing bullshi1:");
+            //System.out.println(currentNode);
+        } else if (currentNode instanceof Node) {
+            n = ((Node)currentNode);
+            if (!(n.checkIfExists((Decorator) decoratedNode))) {
+                n.getDecorators().add((Decorator)decoratedNode);
+            }
+            //System.out.println("printing bullshi2:");
+            //System.out.println(decoratedNode);
         }
 
         Blackboard.getInstance().updateNode(currentNode, decoratedNode);
