@@ -22,10 +22,12 @@ public class Main extends JFrame {
 
     public Main() {
         DrawArea drawPanel = new DrawArea();
+        JTabbedPane tabPane = new JTabbedPane();
 		DrawAreaListener drawAreaListener = new DrawAreaListener();
 		drawPanel.addMouseListener(drawAreaListener);
 		drawPanel.addMouseMotionListener(drawAreaListener);
-        add(drawPanel);
+        tabPane.add("Draw Area",drawPanel);
+        add(tabPane);
         Blackboard.getInstance().addPropertyChangeListener(drawPanel);
     }
 

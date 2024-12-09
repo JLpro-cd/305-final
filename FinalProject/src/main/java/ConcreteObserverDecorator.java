@@ -1,7 +1,7 @@
 import java.awt.*;
 
 public class ConcreteObserverDecorator extends Decorator {
-    private int offsetX = 20;
+    private int offsetX = 100;
     private int offsetY = 0;
 
     public ConcreteObserverDecorator(Component component) {
@@ -18,6 +18,10 @@ public class ConcreteObserverDecorator extends Decorator {
         int y = node.getY() + offsetY;
 
         g.setColor(Color.red);
-        g.drawString("Observer", x, y);
+        g.fillOval(x,y,20,20);
+        g.setColor(Color.black);
+        g.drawString("O",x + 5,y + 15);
+        //g.fill
+        //g.drawString("Observer", x, y);
     }
 }
