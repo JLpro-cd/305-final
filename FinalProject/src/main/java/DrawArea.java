@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 
 /**
  * DrawPanel is a JPanel where the user can draw nodes and their connections
@@ -12,6 +13,7 @@ import java.beans.PropertyChangeListener;
 public class DrawArea extends JPanel implements PropertyChangeListener {
 
     private StrategyDrawLineDecorator strategyDrawLineDecorator = new StrategyDrawLineDecorator();
+    private StrategyDrawLineNode strategyDrawLineNode = new StrategyDrawLineNode();
 
     public DrawArea() {
         setBackground(Color.WHITE);
@@ -32,33 +34,31 @@ public class DrawArea extends JPanel implements PropertyChangeListener {
         Graphics2D g2 = (Graphics2D) g;
         // this is a problem
         //int[] order = Blackboard.getInstance().travelingOrder();
+
+        if (!Blackboard.getInstance().getNodeLines().isEmpty()) { // Draw node lines
+            for (int i = 0; i < Blackboard.getInstance().getNodeLines().size(); i++) {
+                Point startPoint = Blackboard.getInstance().getNodeLines().get(i).getStart();
+                Point endPoint = Blackboard.getInstance().getNodeLines().get(i).getEnd();
+                String connectorType = Blackboard.getInstance().getNodeLines().get(i).getConnectionType();
+                strategyDrawLineNode.createLine(g, connectorType, startPoint, endPoint);
+            }
+        }
+
         g2.setColor(new Color(74, 136, 98, 255));
 
-        if(!Blackboard.getInstance().getDecoratorLines().isEmpty()){
-            int k = 0;
-
-            for(int i = 0; i < Blackboard.getInstance().getDecoratorLines().size(); i++){
-                for(int j = 0; j < Blackboard.getInstance().getDecoratorLines().get(i).size(); j++){
-                    strategyDrawLineDecorator.drawLineWhileDragging(g,Blackboard.getInstance().getDecoratorLines().get(i).get(k),Blackboard.getInstance().getDecoratorLines().get(i).get(k+1));
-
-                }
-            }
-
-        }
-
-        for (int i = 0; i < Blackboard.getInstance().size(); i++) {
-            /*
-            if (i == Blackboard.getInstance().size() - 1) {
-                Blackboard.getInstance().get(
-                        order[i]).drawConnect(Blackboard.getInstance().get(0), g2);
-            } else {
-                Blackboard.getInstance().get(
-                        order[i]).drawConnect(Blackboard.getInstance().get(order[i + 1]), g2);
-            }
-
-         */
+        for (int i = 0; i < Blackboard.getInstance().size(); i++) { // Draw Nodes themselves
             Blackboard.getInstance().get(i).draw(g2);
         }
+
+        if (!Blackboard.getInstance().getDecoratorLines().isEmpty()){ // Draw decoration lines
+            for (int i = 0; i < Blackboard.getInstance().getDecoratorLines().size(); i++) {
+                ArrayList<Point> line = Blackboard.getInstance().getDecoratorLines().get(i);
+                strategyDrawLineDecorator.createLine(g, line.get(0), line.get(1));
+            }
+        }
+
+
+
     }
 
     @Override

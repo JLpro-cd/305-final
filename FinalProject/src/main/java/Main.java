@@ -42,6 +42,7 @@ public class Main extends JFrame {
         add(lPane);
        // add(tabPane);
         Blackboard.getInstance().addPropertyChangeListener(drawPanel);
+
     }
 
 }
