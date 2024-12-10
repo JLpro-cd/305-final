@@ -2,6 +2,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Vector;
 
+/**
+ * Menu at the top of the program which holds various options and calls methods accordingly
+ *
+ * @author Josue Lopez
+ * @author Brendan Holt
+ * @version 1.0
+ */
+
 public class MenuBar extends JPanel {
     JButton fileButton;
     JButton boxButton;
@@ -53,9 +61,6 @@ public class MenuBar extends JPanel {
         JMenuItem aboutItem = new JMenuItem("About");
 
         helpMenu.add(aboutItem);
-
-
-
 
 
         fileButton = new JButton("File");

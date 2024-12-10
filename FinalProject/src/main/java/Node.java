@@ -2,11 +2,13 @@ import java.awt.*;
 import java.util.ArrayList;
 
 /**
- * Node represents a node in the graph
+ * Representation of a class in a UML diagram. Is decorated by Decorator's children, the concrete decorators.
  *
- * @author javiergs
+ * @author Josue Lopez
+ * @author Brendan Holt
  * @version 1.0
  */
+
 public class Node extends Component {
 
     private final Rectangle bounds;
@@ -23,17 +25,33 @@ public class Node extends Component {
 		this(label, x, y, DEFAULT_SIZE, DEFAULT_SIZE);
     }
 
+    /**
+     * Returns the Node's x coordinate.
+     */
+
     public int getX() {
         return bounds.x;
     }
+
+    /**
+     * Returns the Node's y coordinate.
+     */
 
     public int getY() {
         return bounds.y;
     }
 
+    /**
+     * Returns the Node's list of Decorators
+     */
+
     public ArrayList<Decorator> getDecorators() {
         return decorators;
     }
+
+    /**
+     * Iterates through the Node's list of Decorators and prints them. Used for debugging.
+     */
 
     public void printDecorators() {
         System.out.println("printing decorators: size = " + decorators.size());
@@ -42,16 +60,22 @@ public class Node extends Component {
         }
     }
 
+    /**
+     * Returns true if a Decorator's type exists in the Node's list of Decorators and false otherwise.
+     */
+
     public boolean checkIfExists(Decorator decorator) {
-        // Iterate through the list of decorators
         for (Decorator existingDecorator : decorators) {
-            // Check if the type (class) of the decorator already exists in the list
             if (existingDecorator.getClass().equals(decorator.getClass())) {
-                return true;  // If a decorator of the same type exists, return true
+                return true;
             }
         }
-        return false;  // If no decorator of the same type is found, return false
+        return false;
     }
+
+    /**
+     * Draws the Node on DrawArea along with its label in the center.
+     */
 
     @Override
     public void draw(Graphics g) {
@@ -72,23 +96,42 @@ public class Node extends Component {
         g.drawString(label, textX, textY);
     }
 
+    /**
+     * Sets both the Node's x and y coordinates to the given values.
+     */
+
     public void move(int x, int y) {
         bounds.x = x;
         bounds.y = y;
     }
 
+    /**
+     * Returns true if the given coordinates are within the Node's coordinates and false otherwise.
+     */
 
     public boolean contains(int x, int y) {
 		return bounds.contains(x, y);
     }
 
+    /**
+     * Sets the Node's label.
+     */
+
     public void setLabel(String label) {
 		this.label = label;
     }
 
+    /**
+     * Returns the Node's label.
+     */
+
     public String getLabel() {
         return label;
     }
+
+    /**
+     * Returns the calculated center of the Node's coordinates.
+     */
 
     public Point center() {
         return new Point(

@@ -1,10 +1,23 @@
 import java.awt.*;
 
+/**
+ * Concrete implementation of Decorator, which decorates Node. Represents the Singleton class in the singleton
+ * design pattern
+ *
+ * @author Josue Lopez
+ * @author Brendan Holt
+ * @version 1.0
+ */
+
 public class ConcreteSingletonDecorator extends Decorator {
 
     public ConcreteSingletonDecorator(Component component) {
         super(component);
     }
+
+    /**
+     * Draws the Singleton decoration and unwraps while calling draw() on whatever was inside of it.
+     */
 
     @Override
     public void draw(Graphics g) {

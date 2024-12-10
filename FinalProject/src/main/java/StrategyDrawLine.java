@@ -1,15 +1,18 @@
 import java.awt.*;
-import java.awt.geom.QuadCurve2D;
 
 /**
- *
+ * Strategy class for drawing lines.
  *
  * @author Josue Lopez
  * @author Brendan Holt
  * @version 1.0
  */
 
-public class StrategyDrawLineNode {
+public class StrategyDrawLine {
+
+    /**
+     * Draws a line connecting two UML classes (Nodes) and their connection type.
+     */
 
     public void createLineNode(Graphics g, String connectorType, Point start, Point end) {
         g.setColor(Color.GREEN);
@@ -19,4 +22,14 @@ public class StrategyDrawLineNode {
         g.setColor(Color.BLACK);
         g.drawString(connectorType, midX, midY);
     }
+
+    /**
+     * Draws a line connecting two Decorators.
+     */
+
+    public void createLineDecorator(Graphics g, Point start, Point end) {
+        g.setColor(Color.RED);
+        g.drawLine(start.x, start.y, end.x, end.y);
+    }
 }
+

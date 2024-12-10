@@ -1,9 +1,20 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 
+/**
+ * Context menu which appears upon right-clicking a Node.
+ *
+ * @author Josue Lopez
+ * @author Brendan Holt
+ * @version 1.0
+ */
+
 public class NodeDecoratorPanel {
+
+    /**
+     * Creates and shows the context menu that appears upon right-clicking a Node. Listens for clicks and wraps the
+     * Node object accordingly.
+     */
 
     public static void showContextMenu(MouseEvent e, Component rightClickedNode) {
         JPopupMenu popupMenu = new JPopupMenu("Design Patterns");
@@ -28,7 +39,6 @@ public class NodeDecoratorPanel {
         factoryItem.addActionListener(e1 -> applyDecoration(rightClickedNode, "Factory"));
         productItem.addActionListener(e1 -> applyDecoration(rightClickedNode, "Product"));
 
-
         popupMenu.add(observerItem);
         popupMenu.add(observableItem);
         popupMenu.add(singletonItem);
@@ -40,12 +50,11 @@ public class NodeDecoratorPanel {
         popupMenu.add(productItem);
 
         popupMenu.show(e.getComponent(), e.getX(), e.getY());
-
-
     }
 
+
     private static void applyDecoration(Component rightClickedNode, String decoration) {
-        Component decoratedNode = null;
+        Decorator decoratedNode = null;
         Node n;
 
         int index = Blackboard.getInstance().getNodes().indexOf(rightClickedNode);
@@ -56,9 +65,6 @@ public class NodeDecoratorPanel {
         }
 
         Component currentNode = Blackboard.getInstance().getNodes().get(index);
-
-
-
 
         if (decoration.equals("Observer")) {
             decoratedNode = new ConcreteObserverDecorator(currentNode);
@@ -80,20 +86,10 @@ public class NodeDecoratorPanel {
             decoratedNode = new ConcreteProductDecorator(currentNode);
         }
 
-        if(!(currentNode instanceof Node)){
-            n = ((Decorator)currentNode).getBaseNode();
-            if (!(n.checkIfExists((Decorator) decoratedNode))) {
-                n.getDecorators().add((Decorator)decoratedNode);
-            }
-            //System.out.println("printing bullshi1:");
-            //System.out.println(currentNode);
-        } else if (currentNode instanceof Node) {
-            n = ((Node)currentNode);
-            if (!(n.checkIfExists((Decorator) decoratedNode))) {
-                n.getDecorators().add((Decorator)decoratedNode);
-            }
-            //System.out.println("printing bullshi2:");
-            //System.out.println(decoratedNode);
+        n = Decorator.getBaseNode(currentNode);
+
+        if (!(n.checkIfExists(decoratedNode))) {
+            n.getDecorators().add(decoratedNode);
         }
 
         Blackboard.getInstance().updateNode(currentNode, decoratedNode);

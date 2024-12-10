@@ -2,6 +2,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ *
+ * @author Josue Lopez
+ * @author Brendan Holt
+ * @version 1.0
+ */
+
 public class StrategyAsTravel implements Strategy {
 
     public int[] algorithm(ArrayList<Node> nodes ) {
