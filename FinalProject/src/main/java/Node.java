@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.util.ArrayList;
 
 /**
  * Representation of a class in a UML diagram. Is decorated by Decorator's children, the concrete decorators.
@@ -14,7 +13,7 @@ public class Node extends Component {
     private final Rectangle bounds;
     private String label;
     private final static int DEFAULT_SIZE = 100;
-    private ArrayList<Decorator> decorators = new ArrayList<Decorator>();
+    private final DecoratorHolder decorators = new DecoratorHolder();
 
     public Node(String label, int x, int y, int w, int h) {
         bounds = new Rectangle(x, y, w, h);
@@ -45,7 +44,7 @@ public class Node extends Component {
      * Returns the Node's list of Decorators
      */
 
-    public ArrayList<Decorator> getDecorators() {
+    public DecoratorHolder getDecoratorHolder() {
         return decorators;
     }
 
@@ -54,8 +53,8 @@ public class Node extends Component {
      */
 
     public void printDecorators() {
-        System.out.println("printing decorators: size = " + decorators.size());
-        for (Decorator decorator : decorators) {
+        System.out.println("printing decorators: size = " + decorators.getDecorators().length);
+        for (Decorator decorator : decorators.getDecorators()) {
             System.out.println(decorator);
         }
     }
@@ -65,7 +64,8 @@ public class Node extends Component {
      */
 
     public boolean checkIfExists(Decorator decorator) {
-        for (Decorator existingDecorator : decorators) {
+        for (Decorator existingDecorator : decorators.getDecorators()) {
+            if (existingDecorator == null) {continue;}
             if (existingDecorator.getClass().equals(decorator.getClass())) {
                 return true;
             }

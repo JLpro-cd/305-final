@@ -89,7 +89,7 @@ public class NodeDecoratorPanel {
         n = Decorator.getBaseNode(currentNode);
 
         if (!(n.checkIfExists(decoratedNode))) {
-            n.getDecorators().add(decoratedNode);
+            n.getDecoratorHolder().addDecorator(decoratedNode);
         }
 
         Blackboard.getInstance().updateNode(currentNode, decoratedNode);

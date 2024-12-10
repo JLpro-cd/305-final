@@ -1,5 +1,5 @@
-public interface Handler {
+public abstract class Handler {
+    protected String tabString = "    ";
 
-    //not true Handler, always goes through ENTIRE chain
-    public void Handle(Component c);
+    public abstract void Handle(Component c);
 }

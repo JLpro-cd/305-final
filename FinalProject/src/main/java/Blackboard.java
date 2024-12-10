@@ -18,7 +18,7 @@ public class Blackboard extends PropertyChangeSupport {
     private final ArrayList<NodeLine> nodeLines = new ArrayList<>();
     private final ArrayList<ArrayList<Point>> decoratorLines = new ArrayList<>(); // First slot in list reserved for line that moves with user's mouse
     private String currentNodeConnectionType = "None";
-    private final HashMap<String, ArrayList<String>> classCodeMap = new HashMap<>();
+    private final HashMap<String, CodeSections> classCodeMap = new HashMap<>();
 
     protected Blackboard() {
         super(new Object());
@@ -95,7 +95,7 @@ public class Blackboard extends PropertyChangeSupport {
         return nodes;
     }
 
-    public HashMap<String, ArrayList<String>> getClassCode() {
+    public HashMap<String, CodeSections> getClassCode() {
         return classCodeMap;
     }
 

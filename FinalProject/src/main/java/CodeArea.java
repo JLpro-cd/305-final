@@ -74,7 +74,7 @@ public class CodeArea extends JPanel {
 
         for(int i = 0; i < Blackboard.getInstance().getNodes().size(); i++){
 
-            Blackboard.getInstance().getClassCode().put(Decorator.getBaseNode(Blackboard.getInstance().getNodes().get(i)).getLabel(), new ArrayList<String>());
+            Blackboard.getInstance().getClassCode().put(Decorator.getBaseNode(Blackboard.getInstance().getNodes().get(i)).getLabel(), new CodeSections());
 
             htmlString += "<html><a href='file"+i+"'>"
                     + Decorator.getBaseNode(Blackboard.getInstance().getNodes().get(i)).getLabel() + ".java"
@@ -99,26 +99,62 @@ public class CodeArea extends JPanel {
                     if (HyperlinkEvent.EventType.ACTIVATED.equals(e.getEventType())) {
                         String clickedText = e.getDescription();
 
-                        ObserverHandler handler = new ObserverHandler();
+                        ObservableHandler observableHandler = new ObservableHandler();
+                        ObserverHandler observerHandler = new ObserverHandler();
+                        ChainMemberHandler chainMemberHandler = new ChainMemberHandler();
+                        DecoratableHandler decoratableHandler = new DecoratableHandler();
+                        DecorationHandler decorationHandler = new DecorationHandler();
+                        StrategyHandler strategyHandler = new StrategyHandler();
+                        SingletonHandler singletonHandler = new SingletonHandler();
+                        FactoryHandler factoryHandler = new FactoryHandler();
+                        ProductHandler productHandler = new ProductHandler();
+
+
+                        observableHandler.setSuccessor(observerHandler);
+                        observerHandler.setSuccessor(chainMemberHandler);
+                        chainMemberHandler.setSuccessor(decoratableHandler);
+                        decoratableHandler.setSuccessor(decorationHandler);
+                        decorationHandler.setSuccessor(strategyHandler);
+                        strategyHandler.setSuccessor(singletonHandler);
+                        singletonHandler.setSuccessor(factoryHandler);
+                        factoryHandler.setSuccessor(productHandler);
+
+
 
                         for (int i = 0; i < Blackboard.getInstance().getNodes().size(); i++) {
                             String fileRef = "file" + i;
 
                             if (fileRef.equals(clickedText)) {
-                                String code = "public class " + Decorator.getBaseNode(Blackboard.getInstance().getNodes().get(i)).getLabel() + "\n"; // doesn't put first semicolon
+                                Node baseNode = Decorator.getBaseNode(Blackboard.getInstance().getNodes().get(i));
+                                String extensionCode = "public class " + baseNode.getLabel() + "\n"; // doesn't put first semicolon
+                                String classCode = "";
+                                Decorator[] decorations = baseNode.getDecoratorHolder().getDecorators();
+
                                 //loop through decorator list, handle each decorator, build up a huge string, setText to that string
-                                for(int j = 0; j < Decorator.getBaseNode(Blackboard.getInstance().getNodes().get(i)).getDecorators().size(); j++){
-                                    handler.Handle(Decorator.getBaseNode(Blackboard.getInstance().getNodes().get(i)).getDecorators().get(j));
+                                for (int j = 0; j < decorations.length; j++) {
+                                    Decorator currentDecorator = decorations[j];
+                                    if (currentDecorator == null) { continue; }
+                                    observableHandler.Handle(currentDecorator);
                                 }
 
-                                for(int j = 0; j < Blackboard.getInstance().getClassCode().get(Decorator.getBaseNode(Blackboard.getInstance().getNodes().get(i)).getLabel()).size(); j++){
-                                    if(!code.contains(Blackboard.getInstance().getClassCode().get(Decorator.getBaseNode(Blackboard.getInstance().getNodes().get(i)).getLabel()).get(j))) {
-                                        code += Blackboard.getInstance().getClassCode().get(Decorator.getBaseNode(Blackboard.getInstance().getNodes().get(i)).getLabel()).get(j);
+                                for (int j = 0; j < Blackboard.getInstance().getClassCode().get(baseNode.getLabel()).getExtensions().size(); j++) { // extensions first
+                                    if(!extensionCode.contains(Blackboard.getInstance().getClassCode().get(baseNode.getLabel()).getExtensions().get(j))) {
+                                        extensionCode += Blackboard.getInstance().getClassCode().get(baseNode.getLabel()).getExtensions().get(j);
                                     }
                                 }
 
+                                extensionCode += "{\n\n";
 
-                                sourceCodeText.setText(code);
+                                for(int j = 0; j < Blackboard.getInstance().getClassCode().get(baseNode.getLabel()).getClassCode().size(); j++){ // class code next
+                                    if(!classCode.contains(Blackboard.getInstance().getClassCode().get(baseNode.getLabel()).getClassCode().get(j))) {
+                                        classCode += Blackboard.getInstance().getClassCode().get(baseNode.getLabel()).getClassCode().get(j);
+                                    }
+                                }
+
+                                classCode += "}";
+
+
+                                sourceCodeText.setText(extensionCode + classCode);
 
                             }
                         }

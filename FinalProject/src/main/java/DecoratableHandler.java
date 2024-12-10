@@ -1,25 +1,22 @@
-public class ObserverHandler extends Handler {
+public class DecoratableHandler extends Handler {
+    private Handler successor;
 
-    protected Handler successor;
-
-    public void setSuccessor(Handler handler){
-        this.successor = handler;
+    public void setSuccessor(Handler successor) {
+        this.successor = successor;
     }
 
     @Override
     public void Handle(Component c) {
 
-        if (c instanceof Decorator && c.getClass().equals(ConcreteObserverDecorator.class)){
-            String extensionCode = "implements PropertyChangeListener\n";
+        if (c instanceof Decorator && c.getClass().equals(ConcreteDecoratableDecorator.class)){
+            String extensionCode = "extends Component\n";
             String classCode = tabString + "@Override\n" +
-                    tabString + "public void propertyChange(PropertyChangeEvent e) {\n" +
+                    tabString + "public void componentMethod() {\n" +
                     tabString + "}\n\n";
             Blackboard.getInstance().getClassCode().get(Decorator.getBaseNode(c).getLabel()).getExtensions().add(extensionCode);
             Blackboard.getInstance().getClassCode().get(Decorator.getBaseNode(c).getLabel()).getClassCode().add(classCode);
         } else {
             successor.Handle(c);
         }
-
-
     }
 }
