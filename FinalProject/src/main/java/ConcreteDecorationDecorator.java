@@ -1,11 +1,23 @@
 import java.awt.*;
 
-public class ConcreteDecorationDecorator extends Decorator {
+/**
+ * Concrete implementation of Decorator, which decorates Node. Represents the Decoration class in the decoration
+ * design pattern
+ *
+ * @author Josue Lopez
+ * @author Brendan Holt
+ * @version 1.0
+ */
 
+public class ConcreteDecorationDecorator extends Decorator {
 
     public ConcreteDecorationDecorator(Component component) {
         super(component);
     }
+
+    /**
+     * Draws the Decoration decoration and unwraps while calling draw() on whatever was inside of it.
+     */
 
     @Override
     public void draw(Graphics g) {

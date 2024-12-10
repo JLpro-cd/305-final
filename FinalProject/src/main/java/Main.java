@@ -2,13 +2,13 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- *
+ * Driver class for the project
  *
  * @author Josue Lopez
  * @author Brendan Holt
- * @author javiergs
  * @version 1.0
  */
+
 public class Main extends JFrame {
 
     public static void main(String[] args) {

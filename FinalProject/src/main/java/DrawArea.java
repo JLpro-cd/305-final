@@ -5,19 +5,25 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 /**
- * DrawPanel is a JPanel where the user can draw nodes and their connections
+ * Holds the canvas onto which all graphics are drawn on. Observes Blackboard.
  *
- * @author javiergs
+ * @author Josue Lopez
+ * @author Brendan Holt
  * @version 1.0
  */
+
 public class DrawArea extends JPanel implements PropertyChangeListener {
 
-    private final StrategyDrawLineDecorator strategyDrawLineDecorator = new StrategyDrawLineDecorator();
-    private final StrategyDrawLineNode strategyDrawLineNode = new StrategyDrawLineNode();
+    private final StrategyDrawLine strategyDrawLine = new StrategyDrawLine();
 
     public DrawArea() {
         setBackground(Color.WHITE);
     }
+
+    /**
+     * Called by Blackboard, it refreshes the Canvas by iterating through every object (Nodes, Decorators, and their
+     * respective lines) and drawing them appropriately.
+     */
 
     @Override
     public void paintComponent(Graphics g) {
@@ -37,7 +43,7 @@ public class DrawArea extends JPanel implements PropertyChangeListener {
                 Point startPoint = Blackboard.getInstance().getNodeLines().get(i).getStart();
                 Point endPoint = Blackboard.getInstance().getNodeLines().get(i).getEnd();
                 String connectorType = Blackboard.getInstance().getNodeLines().get(i).getConnectionType();
-                strategyDrawLineNode.createLine(g, connectorType, startPoint, endPoint);
+                strategyDrawLine.createLineNode(g, connectorType, startPoint, endPoint);
             }
         }
 
@@ -49,10 +55,14 @@ public class DrawArea extends JPanel implements PropertyChangeListener {
         if (!Blackboard.getInstance().getDecoratorLines().isEmpty()){ // Draw decoration lines
             for (int i = 0; i < Blackboard.getInstance().getDecoratorLines().size(); i++) {
                 ArrayList<Point> line = Blackboard.getInstance().getDecoratorLines().get(i);
-                strategyDrawLineDecorator.createLine(g, line.get(0), line.get(1));
+                strategyDrawLine.createLineDecorator(g, line.get(0), line.get(1));
             }
         }
     }
+
+    /**
+     * Triggers paintComponent when Blackbaord calls repaint().
+     */
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
