@@ -101,7 +101,6 @@ public class CodeArea extends JPanel {
 
                         ObserverHandler handler = new ObserverHandler();
 
-
                         for (int i = 0; i < Blackboard.getInstance().getNodes().size(); i++) {
                             String fileRef = "file" + i;
 
