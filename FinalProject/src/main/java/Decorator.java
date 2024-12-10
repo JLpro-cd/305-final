@@ -1,6 +1,7 @@
 import java.awt.*;
 
 public abstract class Decorator extends Component {
+
     protected Component component;
     private int x;
     private int y;
@@ -11,14 +12,21 @@ public abstract class Decorator extends Component {
         this.component = component;
     }
 
-
-    public Node getBaseNode() {
+    public Node getBaseNode() { // Version for internal use in concrete decorators
         if (component instanceof Node) {
             return (Node) component;
         } else if (component instanceof Decorator) {
             return ((Decorator) component).getBaseNode();
         }
         throw new IllegalStateException("Base node not found...");
+    }
+
+    public static Node getBaseNode(Component comp) { // General version for external uses; handles the casting portion
+        if (comp instanceof Node) {
+            return (Node) comp;
+        } else {
+            return getBaseNode(((Decorator) comp).component);
+        }
     }
 
     public void setX(int x){
@@ -46,6 +54,4 @@ public abstract class Decorator extends Component {
             component.draw(g);
         }
     }
-
-
 }

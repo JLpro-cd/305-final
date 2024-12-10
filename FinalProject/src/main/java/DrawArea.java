@@ -12,8 +12,8 @@ import java.util.ArrayList;
  */
 public class DrawArea extends JPanel implements PropertyChangeListener {
 
-    private StrategyDrawLineDecorator strategyDrawLineDecorator = new StrategyDrawLineDecorator();
-    private StrategyDrawLineNode strategyDrawLineNode = new StrategyDrawLineNode();
+    private final StrategyDrawLineDecorator strategyDrawLineDecorator = new StrategyDrawLineDecorator();
+    private final StrategyDrawLineNode strategyDrawLineNode = new StrategyDrawLineNode();
 
     public DrawArea() {
         setBackground(Color.WHITE);
@@ -30,11 +30,8 @@ public class DrawArea extends JPanel implements PropertyChangeListener {
         for (int i = 0; i < getHeight(); i += 20) {
             g.drawLine(0, i, getWidth(), i);
         }
-        // draw nodes and connections
-        Graphics2D g2 = (Graphics2D) g;
-        // this is a problem
-        //int[] order = Blackboard.getInstance().travelingOrder();
 
+        Graphics2D g2 = (Graphics2D) g;
         if (!Blackboard.getInstance().getNodeLines().isEmpty()) { // Draw node lines
             for (int i = 0; i < Blackboard.getInstance().getNodeLines().size(); i++) {
                 Point startPoint = Blackboard.getInstance().getNodeLines().get(i).getStart();
@@ -45,7 +42,6 @@ public class DrawArea extends JPanel implements PropertyChangeListener {
         }
 
         g2.setColor(new Color(74, 136, 98, 255));
-
         for (int i = 0; i < Blackboard.getInstance().size(); i++) { // Draw Nodes themselves
             Blackboard.getInstance().get(i).draw(g2);
         }
@@ -56,9 +52,6 @@ public class DrawArea extends JPanel implements PropertyChangeListener {
                 strategyDrawLineDecorator.createLine(g, line.get(0), line.get(1));
             }
         }
-
-
-
     }
 
     @Override

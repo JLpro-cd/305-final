@@ -17,8 +17,6 @@ public class Blackboard extends PropertyChangeSupport {
     private final ArrayList<ArrayList<Point>> decoratorLines = new ArrayList<>(); // First slot in list reserved for line that moves with user's mouse
     private String currentNodeConnectionType = "None";
 
-    private Strategy strategy = new StrategyAsQueue();
-
     protected Blackboard() {
         super(new Object());
     }
@@ -117,9 +115,6 @@ public class Blackboard extends PropertyChangeSupport {
     public void setCurrentNodeConnectionType(String currentNodeConnectionType) {
         this.currentNodeConnectionType = currentNodeConnectionType;
     }
-
-
-    //public int[] travelingOrder() {return strategy.algorithm(nodes);}
 
     public void repaint() {
         firePropertyChange("repaint", 0, 1);
