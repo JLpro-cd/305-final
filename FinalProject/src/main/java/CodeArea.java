@@ -8,6 +8,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 /**
+ * Holds the generated boilerplate code created by the Handlers.
  *
  * @author Josue Lopez
  * @author Brendan Holt
@@ -38,10 +39,9 @@ public class CodeArea extends JPanel {
         sourceCodeText.setAutoscrolls(true);
 
         directoryText.setContentType("text/html");
-        //directoryText.setText("<html><a href='file1'>File 1</a><br><a href='file2'>File 2</a><br><a href='file3'>File 3</a></html>");
 
-        sourceCodePanel.setViewportView(sourceCodeText);//, BorderLayout.EAST);
-        directoryPanel.setViewportView(directoryText);//, BorderLayout.WEST);
+        sourceCodePanel.setViewportView(sourceCodeText);
+        directoryPanel.setViewportView(directoryText);
 
         sourceCodePanel.setVisible(true);
         directoryPanel.setVisible(true);
@@ -56,6 +56,10 @@ public class CodeArea extends JPanel {
 
     }
 
+    /**
+     * Detects when a class file is clicked.
+     */
+
     public void detectActions(){
 
         directoryText.setText(setDirectoryLinks());
@@ -68,7 +72,7 @@ public class CodeArea extends JPanel {
 
     }
 
-    public String setDirectoryLinks(){
+    private String setDirectoryLinks(){
 
         String htmlString = "";
 
@@ -90,9 +94,7 @@ public class CodeArea extends JPanel {
     }
 
 
-    //sorry you have to read this code bro
-    public void startThread(){
-
+    private void startThread(){
         hyperLinkListenerThread = new Thread(() -> {
             while (isRunPressed) {
                 directoryText.addHyperlinkListener(e -> {
@@ -126,18 +128,17 @@ public class CodeArea extends JPanel {
 
                             if (fileRef.equals(clickedText)) {
                                 Node baseNode = Decorator.getBaseNode(Blackboard.getInstance().getNodes().get(i));
-                                String extensionCode = "public class " + baseNode.getLabel() + "\n"; // doesn't put first semicolon
+                                String extensionCode = "public class " + baseNode.getLabel() + "\n";
                                 String classCode = "";
                                 Decorator[] decorations = baseNode.getDecoratorHolder().getDecorators();
 
-                                //loop through decorator list, handle each decorator, build up a huge string, setText to that string
                                 for (int j = 0; j < decorations.length; j++) {
                                     Decorator currentDecorator = decorations[j];
                                     if (currentDecorator == null) { continue; }
                                     observableHandler.Handle(currentDecorator);
                                 }
 
-                                for (int j = 0; j < Blackboard.getInstance().getClassCode().get(baseNode.getLabel()).getExtensions().size(); j++) { // extensions first
+                                for (int j = 0; j < Blackboard.getInstance().getClassCode().get(baseNode.getLabel()).getExtensions().size(); j++) { // Extensions first
                                     if(!extensionCode.contains(Blackboard.getInstance().getClassCode().get(baseNode.getLabel()).getExtensions().get(j))) {
                                         extensionCode += Blackboard.getInstance().getClassCode().get(baseNode.getLabel()).getExtensions().get(j);
                                     }
@@ -145,7 +146,7 @@ public class CodeArea extends JPanel {
 
                                 extensionCode += "{\n\n";
 
-                                for(int j = 0; j < Blackboard.getInstance().getClassCode().get(baseNode.getLabel()).getClassCode().size(); j++){ // class code next
+                                for(int j = 0; j < Blackboard.getInstance().getClassCode().get(baseNode.getLabel()).getClassCode().size(); j++){ // Class code after
                                     if(!classCode.contains(Blackboard.getInstance().getClassCode().get(baseNode.getLabel()).getClassCode().get(j))) {
                                         classCode += Blackboard.getInstance().getClassCode().get(baseNode.getLabel()).getClassCode().get(j);
                                     }
@@ -154,7 +155,7 @@ public class CodeArea extends JPanel {
                                 classCode += "}";
 
 
-                                sourceCodeText.setText(extensionCode + classCode);
+                                sourceCodeText.setText(extensionCode + classCode); // Show it on the CodeArea.
 
                             }
                         }
@@ -172,6 +173,10 @@ public class CodeArea extends JPanel {
         hyperLinkListenerThread.start();
 
     }
+
+    /**
+     * Begins the action detection process.
+     */
 
     public void runResponse(){
 

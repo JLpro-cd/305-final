@@ -1,9 +1,17 @@
-public class ProductHandler extends Handler {
-    private Handler successor;
 
-    public void setSuccessor(Handler successor) {
-        this.successor = successor;
-    }
+/**
+ * Concrete Handler for the Product Decorator. Creates Boilerplate code accordingly.
+ *
+ * @author Josue Lopez
+ * @author Brendan Holt
+ * @version 1.0
+ */
+
+public class ProductHandler extends Handler {
+
+    /**
+     * Creates the boilerplate code associated with the Decorator.
+     */
 
     @Override
     public void Handle(Component c) {

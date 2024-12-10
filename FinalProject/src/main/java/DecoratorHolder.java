@@ -1,3 +1,12 @@
+
+/**
+ * Manages a Node's (class') Decorators in an ordered array, with each Decorator at a specific index.
+ *
+ * @author Josue Lopez
+ * @author Brendan Holt
+ * @version 1.0
+ */
+
 public class DecoratorHolder {
 
     private Decorator[] decorators = new Decorator[9]; // Ordered by what code generation would naturally print first (i.e. observable -> extends, which is first).
@@ -33,10 +42,18 @@ public class DecoratorHolder {
         }
     }
 
+    /**
+     * Adds a Decorator to its specific index in the array.
+     */
+
     public void addDecorator(Decorator decorator) {
         int decoratorIndex = getDecoratorIndex(decorator);
         decorators[decoratorIndex] = decorator;
     }
+
+    /**
+     * Returns the array of Decorators.
+     */
 
     public Decorator[] getDecorators() {
         return decorators;

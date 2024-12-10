@@ -1,10 +1,27 @@
+
+/**
+ * Concrete Handler for the Observer Decorator. Creates Boilerplate code accordingly.
+ *
+ * @author Josue Lopez
+ * @author Brendan Holt
+ * @version 1.0
+ */
+
 public class ObserverHandler extends Handler {
 
     protected Handler successor;
 
-    public void setSuccessor(Handler handler){
-        this.successor = handler;
+    /**
+     * Sets the Handler's successor.
+     */
+
+    public void setSuccessor(Handler successor) {
+        this.successor = successor;
     }
+
+    /**
+     * Creates the boilerplate code associated with the Decorator.
+     */
 
     @Override
     public void Handle(Component c) {
