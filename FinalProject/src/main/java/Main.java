@@ -40,7 +40,6 @@ public class Main extends JFrame {
         menuBar.setBounds(35, 0, 600, 30);
         lPane.add(menuBar, JLayeredPane.PALETTE_LAYER);
         add(lPane);
-       // add(tabPane);
         Blackboard.getInstance().addPropertyChangeListener(drawPanel);
 
     }

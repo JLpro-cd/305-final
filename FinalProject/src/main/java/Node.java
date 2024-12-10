@@ -14,8 +14,6 @@ public class Node extends Component {
     private final static int DEFAULT_SIZE = 100;
     private ArrayList<Decorator> decorators = new ArrayList<Decorator>();
 
-    private final StrategyDraw strategyDraw = new StrategyDrawLineNode();
-
     public Node(String label, int x, int y, int w, int h) {
         bounds = new Rectangle(x, y, w, h);
         this.label = label;

@@ -2,11 +2,7 @@ import java.awt.*;
 import java.awt.geom.QuadCurve2D;
 
 
-public class StrategyDrawLineNode implements StrategyDraw {
-
-    @Override
-    public void createLine(Graphics g, Point start, Point end) {
-    }
+public class StrategyDrawLineNode {
 
     public void createLine(Graphics g, String connectorType, Point start, Point end) {
         g.setColor(Color.GREEN);
