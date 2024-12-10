@@ -14,9 +14,11 @@ public class MenuBar extends JPanel {
     JButton boxButton;
     JButton toolsButton;
     JButton helpButton;
+    private CodeArea codeArea;
 
-    public MenuBar(){
+    public MenuBar(CodeArea codeArea){
 
+        this.codeArea = codeArea;
         JPopupMenu fileMenu = new JPopupMenu("File");
 
         JMenuItem newItem = new JMenuItem("New...");
@@ -67,9 +69,17 @@ public class MenuBar extends JPanel {
         toolsButton = new JButton("Tools");
         helpButton = new JButton("Help");
 
+
+        runItem.addActionListener(e -> {
+            codeArea.runResponse();
+        });
+
         fileButton.addActionListener(e -> fileMenu.show(fileButton, 0, fileButton.getHeight()));
         boxButton.addActionListener(e -> boxConnectorMenu.show(boxButton, 0, boxButton.getHeight()));
-        toolsButton.addActionListener(e -> toolsMenu.show(toolsButton, 0, toolsButton.getHeight()));
+        toolsButton.addActionListener(e -> {
+            toolsMenu.show(toolsButton, 0, toolsButton.getHeight());
+
+        });
         helpButton.addActionListener(e -> helpMenu.show(helpButton, 0, helpButton.getHeight()));
 
         setLayout(new FlowLayout(FlowLayout.LEFT));

@@ -25,7 +25,7 @@ public class Main extends JFrame {
         JLayeredPane lPane = new JLayeredPane();
         DrawArea drawPanel = new DrawArea();
         CodeArea codePanel = new CodeArea();
-        MenuBar menuBar = new MenuBar();
+        MenuBar menuBar = new MenuBar(codePanel);
         JTabbedPane tabPane = new JTabbedPane();
 		DrawAreaListener drawAreaListener = new DrawAreaListener();
 

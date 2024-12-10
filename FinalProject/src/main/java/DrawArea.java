@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class DrawArea extends JPanel implements PropertyChangeListener {
 
-    private final StrategyDrawLine strategyDrawLine = new StrategyDrawLine();
+    private final DrawLine drawLine = new DrawLine();
 
     public DrawArea() {
         setBackground(Color.WHITE);
@@ -43,7 +43,7 @@ public class DrawArea extends JPanel implements PropertyChangeListener {
                 Point startPoint = Blackboard.getInstance().getNodeLines().get(i).getStart();
                 Point endPoint = Blackboard.getInstance().getNodeLines().get(i).getEnd();
                 String connectorType = Blackboard.getInstance().getNodeLines().get(i).getConnectionType();
-                strategyDrawLine.createLineNode(g, connectorType, startPoint, endPoint);
+                drawLine.createLineNode(g, connectorType, startPoint, endPoint);
             }
         }
 
@@ -55,7 +55,7 @@ public class DrawArea extends JPanel implements PropertyChangeListener {
         if (!Blackboard.getInstance().getDecoratorLines().isEmpty()){ // Draw decoration lines
             for (int i = 0; i < Blackboard.getInstance().getDecoratorLines().size(); i++) {
                 ArrayList<Point> line = Blackboard.getInstance().getDecoratorLines().get(i);
-                strategyDrawLine.createLineDecorator(g, line.get(0), line.get(1));
+                drawLine.createLineDecorator(g, line.get(0), line.get(1));
             }
         }
     }

@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Blackboard holds the state of the entire application, including Nodes (which represent classes) and their decorations,
@@ -17,6 +18,7 @@ public class Blackboard extends PropertyChangeSupport {
     private final ArrayList<NodeLine> nodeLines = new ArrayList<>();
     private final ArrayList<ArrayList<Point>> decoratorLines = new ArrayList<>(); // First slot in list reserved for line that moves with user's mouse
     private String currentNodeConnectionType = "None";
+    private final HashMap<String, ArrayList<String>> classCodeMap = new HashMap<>();
 
     protected Blackboard() {
         super(new Object());
@@ -44,6 +46,7 @@ public class Blackboard extends PropertyChangeSupport {
     public Component get(int index) {
         return nodes.get(index);
     }
+
 
     /**
      * Returns the list of Decorator lines in Blackboard, initializing it if it doesn't exist yet by calling initializeDecoratorLines().
@@ -90,6 +93,10 @@ public class Blackboard extends PropertyChangeSupport {
 
     public ArrayList<Component> getNodes() {
         return nodes;
+    }
+
+    public HashMap<String, ArrayList<String>> getClassCode() {
+        return classCodeMap;
     }
 
     /**

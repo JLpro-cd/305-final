@@ -1,14 +1,14 @@
 import java.awt.*;
 
 /**
- * Strategy class for drawing lines.
+ * Class for drawing lines.
  *
  * @author Josue Lopez
  * @author Brendan Holt
  * @version 1.0
  */
 
-public class StrategyDrawLine {
+public class DrawLine {
 
     /**
      * Draws a line connecting two UML classes (Nodes) and their connection type.
