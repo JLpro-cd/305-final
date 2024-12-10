@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.Vector;
 
 /**
  * Menu at the top of the program which holds various options and calls methods accordingly
