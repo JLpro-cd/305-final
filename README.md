@@ -7,7 +7,9 @@
 Step 1) Download `305-final.jar` from this repository at https://github.com/JLpro-cd/305-final/tree/master/out/artifacts/305_final_jar
 
 Step 2) Copy the absolute path of `305-final.jar` from the download location on your local machine  
+
 Step 3) Open your local machine's command prompt  
+
 Step 4) Type into your command prompt:
 
 ```bash
