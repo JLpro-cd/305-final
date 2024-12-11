@@ -4,7 +4,7 @@
 ![image](https://github.com/user-attachments/assets/ef020096-ebbf-4a3c-962c-476e6f5f075b)
 
 ## Instructions to Run Program
-Step 1) Download `305-final.jar` from this repository at [Download 305-final.jar](https://github.com/JLpro-cd/305-final/blob/master/out/artifacts/305_final_jar/305-final.jar)
+Step 1) Download `305-final.jar` from this repository at ([download 305-final.jar here](https://github.com/JLpro-cd/305-final/raw/refs/heads/master/out/artifacts/305_final_jar/305-final.jar))
 
 Step 2) Copy the absolute path of `305-final.jar` from the download location on your local machine  
 
