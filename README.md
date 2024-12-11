@@ -27,5 +27,5 @@ Design patterns can beconnected visually with lines to emphasize relationships s
 In addition, this application supports UML connections between classes such as association, aggregation, composition, generalization, and realization. 
 Once a user presses run, under the tools menu bar options, the program will generate template code as well as allow users to modify the template to start creating java programs. 
 Users can save their work to their local machine's desktop in the form of a .ser (a Java serialized object file) and open .ser files to continue their work.
-This application provides an easy to understand and use interface for a user to quickly develop UML diagrams and start generating code.
+This application provides an easy to understand/use interface for a user to quickly develop UML diagrams and start generating code.
 
