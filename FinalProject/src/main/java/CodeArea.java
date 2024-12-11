@@ -38,7 +38,6 @@ public class CodeArea extends JPanel {
         sourceCodeText.setAutoscrolls(true);
 
         directoryText.setContentType("text/html");
-        //directoryText.setText("<html><a href='file1'>File 1</a><br><a href='file2'>File 2</a><br><a href='file3'>File 3</a></html>");
 
         sourceCodePanel.setViewportView(sourceCodeText);//, BorderLayout.EAST);
         directoryPanel.setViewportView(directoryText);//, BorderLayout.WEST);
