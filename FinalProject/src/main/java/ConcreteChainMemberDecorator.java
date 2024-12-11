@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.io.Serializable;
 
 /**
  * Concrete implementation of Decorator, which decorates Node. Represents a Chain Member in the Chain of Responsibility
@@ -9,7 +10,9 @@ import java.awt.*;
  * @version 1.0
  */
 
-public class ConcreteChainMemberDecorator extends Decorator {
+public class ConcreteChainMemberDecorator extends Decorator implements Serializable {
+
+    public ConcreteChainMemberDecorator(){super(null);}
 
     public ConcreteChainMemberDecorator(Component component) {
         super(component);

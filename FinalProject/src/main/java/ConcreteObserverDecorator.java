@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.io.Serializable;
 
 /**
  * Concrete implementation of Decorator, which decorates Node. Represents the Observer class in the observer
@@ -9,7 +10,9 @@ import java.awt.*;
  * @version 1.0
  */
 
-public class ConcreteObserverDecorator extends Decorator {
+public class ConcreteObserverDecorator extends Decorator implements Serializable {
+
+    public ConcreteObserverDecorator() {super(null);}
 
     public ConcreteObserverDecorator(Component component) {
         super(component);

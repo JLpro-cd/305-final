@@ -34,6 +34,7 @@ public class FileCode {
         codeArea.setIsRunPressed(false);
         codeArea.getDirectoryText().setText("");
         codeArea.getSourceCodeText().setText("");
+        Blackboard.getInstance().repaint();
 
     }
 
@@ -84,7 +85,7 @@ public class FileCode {
 
             }
 
-
+        Blackboard.getInstance().repaint();
     }
 
 

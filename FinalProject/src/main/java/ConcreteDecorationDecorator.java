@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.io.Serializable;
 
 /**
  * Concrete implementation of Decorator, which decorates Node. Represents the Decoration class in the decoration
@@ -9,7 +10,9 @@ import java.awt.*;
  * @version 1.0
  */
 
-public class ConcreteDecorationDecorator extends Decorator {
+public class ConcreteDecorationDecorator extends Decorator implements Serializable {
+
+    public ConcreteDecorationDecorator(){super(null);}
 
     public ConcreteDecorationDecorator(Component component) {
         super(component);

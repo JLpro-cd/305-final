@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.io.Serializable;
 
 /**
  * Abstract class which extends Component, a common ancestor of it and Node, which its children decorate. Extended
@@ -9,13 +10,15 @@ import java.awt.*;
  * @version 1.0
  */
 
-public abstract class Decorator extends Component {
+public abstract class Decorator extends Component implements Serializable {
 
     protected Component component;
     private int x;
     private int y;
     private static final int WIDTH = 20;
     private static final int HEIGHT = 20;
+
+    Decorator(){this.component = null;}
 
     public Decorator(Component component) {
         this.component = component;

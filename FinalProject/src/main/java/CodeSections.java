@@ -11,7 +11,7 @@ import java.util.List;
  * @version 1.0
  */
 
-public class CodeSections {
+public class CodeSections implements Serializable {
     private ArrayList<String> extensions = new ArrayList<>();
     private ArrayList<String> classCode = new ArrayList<>();
 

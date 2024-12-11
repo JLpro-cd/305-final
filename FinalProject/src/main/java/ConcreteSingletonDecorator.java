@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.io.Serializable;
 
 /**
  * Concrete implementation of Decorator, which decorates Node. Represents the Singleton class in the singleton
@@ -9,7 +10,9 @@ import java.awt.*;
  * @version 1.0
  */
 
-public class ConcreteSingletonDecorator extends Decorator {
+public class ConcreteSingletonDecorator extends Decorator implements Serializable {
+
+    public ConcreteSingletonDecorator(){super(null);}
 
     public ConcreteSingletonDecorator(Component component) {
         super(component);

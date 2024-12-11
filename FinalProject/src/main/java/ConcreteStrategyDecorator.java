@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.io.Serializable;
 
 /**
  * Concrete implementation of Decorator, which decorates Node. Represents the Strategy class in the strategy
@@ -9,7 +10,9 @@ import java.awt.*;
  * @version 1.0
  */
 
-public class ConcreteStrategyDecorator extends Decorator {
+public class ConcreteStrategyDecorator extends Decorator implements Serializable {
+
+    public ConcreteStrategyDecorator(){super(null);}
 
     public ConcreteStrategyDecorator(Component component) {
         super(component);
