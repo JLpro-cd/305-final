@@ -53,8 +53,10 @@ public class DrawAreaListener implements MouseListener, MouseMotionListener {
             Component component = Blackboard.getInstance().get(i);
             Node node = Decorator.getBaseNode(component);
 
-            for (int j = 0; j < node.getDecorators().size(); j++) {
-                Decorator decorator = node.getDecorators().get(j);
+            for (int j = 0; j < node.getDecoratorHolder().getDecorators().length; j++) {
+                Decorator decorator = node.getDecoratorHolder().getDecorators()[j];
+
+                if (decorator == null) { continue; }
 
                 int dx = decorator.getX();
                 int dy = decorator.getY();
@@ -85,7 +87,7 @@ public class DrawAreaListener implements MouseListener, MouseMotionListener {
                     int decorationIndex = decorationSelected[1];
                     Component component = Blackboard.getInstance().get(nodeIndex);
                     Node n = Decorator.getBaseNode(component);
-                    Decorator clickedDeco = n.getDecorators().get(decorationIndex);
+                    Decorator clickedDeco = n.getDecoratorHolder().getDecorators()[decorationIndex];
 
                     if (!isDrawingDecorationLine) { // First click on a decoration; Start drawing the line.
                         startDecoration = clickedDeco;

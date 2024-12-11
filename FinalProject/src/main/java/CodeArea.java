@@ -8,6 +8,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 /**
+ * Holds the generated boilerplate code created by the Handlers.
  *
  * @author Josue Lopez
  * @author Brendan Holt
@@ -39,8 +40,8 @@ public class CodeArea extends JPanel {
 
         directoryText.setContentType("text/html");
 
-        sourceCodePanel.setViewportView(sourceCodeText);//, BorderLayout.EAST);
-        directoryPanel.setViewportView(directoryText);//, BorderLayout.WEST);
+        sourceCodePanel.setViewportView(sourceCodeText);
+        directoryPanel.setViewportView(directoryText);
 
         sourceCodePanel.setVisible(true);
         directoryPanel.setVisible(true);
@@ -55,6 +56,10 @@ public class CodeArea extends JPanel {
 
     }
 
+    /**
+     * Detects when a class file is clicked.
+     */
+
     public void detectActions(){
 
         directoryText.setText(setDirectoryLinks());
@@ -67,13 +72,13 @@ public class CodeArea extends JPanel {
 
     }
 
-    public String setDirectoryLinks(){
+    private String setDirectoryLinks(){
 
         String htmlString = "";
 
         for(int i = 0; i < Blackboard.getInstance().getNodes().size(); i++){
 
-            Blackboard.getInstance().getClassCode().put(Decorator.getBaseNode(Blackboard.getInstance().getNodes().get(i)).getLabel(), new ArrayList<String>());
+            Blackboard.getInstance().getClassCode().put(Decorator.getBaseNode(Blackboard.getInstance().getNodes().get(i)).getLabel(), new CodeSections());
 
             htmlString += "<html><a href='file"+i+"'>"
                     + Decorator.getBaseNode(Blackboard.getInstance().getNodes().get(i)).getLabel() + ".java"
@@ -89,35 +94,68 @@ public class CodeArea extends JPanel {
     }
 
 
-    //sorry you have to read this code bro
-    public void startThread(){
-
+    private void startThread(){
         hyperLinkListenerThread = new Thread(() -> {
             while (isRunPressed) {
                 directoryText.addHyperlinkListener(e -> {
                     if (HyperlinkEvent.EventType.ACTIVATED.equals(e.getEventType())) {
                         String clickedText = e.getDescription();
 
-                        ObserverHandler handler = new ObserverHandler();
+                        ObservableHandler observableHandler = new ObservableHandler();
+                        ObserverHandler observerHandler = new ObserverHandler();
+                        ChainMemberHandler chainMemberHandler = new ChainMemberHandler();
+                        DecoratableHandler decoratableHandler = new DecoratableHandler();
+                        DecorationHandler decorationHandler = new DecorationHandler();
+                        StrategyHandler strategyHandler = new StrategyHandler();
+                        SingletonHandler singletonHandler = new SingletonHandler();
+                        FactoryHandler factoryHandler = new FactoryHandler();
+                        ProductHandler productHandler = new ProductHandler();
+
+
+                        observableHandler.setSuccessor(observerHandler);
+                        observerHandler.setSuccessor(chainMemberHandler);
+                        chainMemberHandler.setSuccessor(decoratableHandler);
+                        decoratableHandler.setSuccessor(decorationHandler);
+                        decorationHandler.setSuccessor(strategyHandler);
+                        strategyHandler.setSuccessor(singletonHandler);
+                        singletonHandler.setSuccessor(factoryHandler);
+                        factoryHandler.setSuccessor(productHandler);
+
+
 
                         for (int i = 0; i < Blackboard.getInstance().getNodes().size(); i++) {
                             String fileRef = "file" + i;
 
                             if (fileRef.equals(clickedText)) {
-                                String code = "public class " + Decorator.getBaseNode(Blackboard.getInstance().getNodes().get(i)).getLabel() + "\n"; // doesn't put first semicolon
-                                //loop through decorator list, handle each decorator, build up a huge string, setText to that string
-                                for(int j = 0; j < Decorator.getBaseNode(Blackboard.getInstance().getNodes().get(i)).getDecorators().size(); j++){
-                                    handler.Handle(Decorator.getBaseNode(Blackboard.getInstance().getNodes().get(i)).getDecorators().get(j));
+                                Node baseNode = Decorator.getBaseNode(Blackboard.getInstance().getNodes().get(i));
+                                String extensionCode = "public class " + baseNode.getLabel() + "\n";
+                                String classCode = "";
+                                Decorator[] decorations = baseNode.getDecoratorHolder().getDecorators();
+
+                                for (int j = 0; j < decorations.length; j++) {
+                                    Decorator currentDecorator = decorations[j];
+                                    if (currentDecorator == null) { continue; }
+                                    observableHandler.Handle(currentDecorator);
                                 }
 
-                                for(int j = 0; j < Blackboard.getInstance().getClassCode().get(Decorator.getBaseNode(Blackboard.getInstance().getNodes().get(i)).getLabel()).size(); j++){
-                                    if(!code.contains(Blackboard.getInstance().getClassCode().get(Decorator.getBaseNode(Blackboard.getInstance().getNodes().get(i)).getLabel()).get(j))) {
-                                        code += Blackboard.getInstance().getClassCode().get(Decorator.getBaseNode(Blackboard.getInstance().getNodes().get(i)).getLabel()).get(j);
+                                for (int j = 0; j < Blackboard.getInstance().getClassCode().get(baseNode.getLabel()).getExtensions().size(); j++) { // Extensions first
+                                    if(!extensionCode.contains(Blackboard.getInstance().getClassCode().get(baseNode.getLabel()).getExtensions().get(j))) {
+                                        extensionCode += Blackboard.getInstance().getClassCode().get(baseNode.getLabel()).getExtensions().get(j);
                                     }
                                 }
 
+                                extensionCode += "{\n\n";
 
-                                sourceCodeText.setText(code);
+                                for(int j = 0; j < Blackboard.getInstance().getClassCode().get(baseNode.getLabel()).getClassCode().size(); j++){ // Class code after
+                                    if(!classCode.contains(Blackboard.getInstance().getClassCode().get(baseNode.getLabel()).getClassCode().get(j))) {
+                                        classCode += Blackboard.getInstance().getClassCode().get(baseNode.getLabel()).getClassCode().get(j);
+                                    }
+                                }
+
+                                classCode += "}";
+
+
+                                sourceCodeText.setText(extensionCode + classCode); // Show it on the CodeArea.
 
                             }
                         }
@@ -135,6 +173,10 @@ public class CodeArea extends JPanel {
         hyperLinkListenerThread.start();
 
     }
+
+    /**
+     * Begins the action detection process.
+     */
 
     public void runResponse(){
 

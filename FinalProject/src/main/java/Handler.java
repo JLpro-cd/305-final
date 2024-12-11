@@ -1,5 +1,14 @@
-public interface Handler {
 
-    //not true Handler, always goes through ENTIRE chain
-    public void Handle(Component c);
+/**
+ * Abstract class from which concrete Handlers inherit from.
+ *
+ * @author Josue Lopez
+ * @author Brendan Holt
+ * @version 1.0
+ */
+
+public abstract class Handler {
+    protected String tabString = "    ";
+
+    public abstract void Handle(Component c);
 }
