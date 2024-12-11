@@ -14,7 +14,8 @@ Step 4) Type into your command prompt:
 
 ```bash
    java -jar "absolute path of your 305-final.jar"
-
+```
 OR
 
    Double click the 305-final.jar file on your local machine
+
