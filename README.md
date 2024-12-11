@@ -19,7 +19,7 @@ OR
 
    Double click the 305-final.jar file on your local machine
 
-##What this project is about
+## What this project is about
 
 This project is a Java application that allows users to create UML diagrams, as well as generate template code in Java for their UML diagrams. 
 It supports the ability to emphasize design patterns in your UML diagrams by letting users attach patterns to classes. 
