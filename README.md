@@ -12,7 +12,7 @@ Step 3) Copy the absolute path of `305-final.jar` from the download location on 
 
 Step 4) Open your local machine's command prompt  
 
-Step 5) Type into your command prompt:
+Step 5) Type into your command prompt and press Enter:
 
 ```bash
    java -jar "absolute path of your 305-final.jar"
