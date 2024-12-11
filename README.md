@@ -17,4 +17,4 @@ Step 4) Type into your command prompt:
 
 OR
 
-   Double click the 305-final.jar file
+   Double click the 305-final.jar file on your local machine
