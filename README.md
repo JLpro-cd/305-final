@@ -4,13 +4,15 @@
 ![image](https://github.com/user-attachments/assets/ef020096-ebbf-4a3c-962c-476e6f5f075b)
 
 ## Instructions to Run Program
-Step 1) Download `305-final.jar` from this repository by clicking this link --> ([Download](https://github.com/JLpro-cd/305-final/raw/refs/heads/master/out/artifacts/305_final_jar/305-final.jar))
+Step 1) Ensure you have the latest version of Java JDK/JRE installed --> [Java JDK/JRE](https://www.oracle.com/java/technologies/downloads/)
 
-Step 2) Copy the absolute path of `305-final.jar` from the download location on your local machine  
+Step 2) Download `305-final.jar` from this repository by clicking this link --> [Download](https://github.com/JLpro-cd/305-final/raw/refs/heads/master/out/artifacts/305_final_jar/305-final.jar)
 
-Step 3) Open your local machine's command prompt  
+Step 3) Copy the absolute path of `305-final.jar` from the download location on your local machine  
 
-Step 4) Type into your command prompt:
+Step 4) Open your local machine's command prompt  
+
+Step 5) Type into your command prompt:
 
 ```bash
    java -jar "absolute path of your 305-final.jar"
