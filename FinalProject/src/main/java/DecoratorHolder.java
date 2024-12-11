@@ -1,3 +1,4 @@
+import java.io.Serializable;
 
 /**
  * Manages a Node's (class') Decorators in an ordered array, with each Decorator at a specific index.
@@ -7,7 +8,7 @@
  * @version 1.0
  */
 
-public class DecoratorHolder {
+public class DecoratorHolder implements Serializable {
 
     private Decorator[] decorators = new Decorator[9]; // Ordered by what code generation would naturally print first (i.e. observable -> extends, which is first).
     private static final int SINGLETON_INDEX= 0;

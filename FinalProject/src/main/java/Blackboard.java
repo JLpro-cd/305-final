@@ -14,11 +14,11 @@ import java.util.HashMap;
 public class Blackboard extends PropertyChangeSupport {
 
     private static Blackboard instance;
-    private final ArrayList<Component> nodes = new ArrayList<>();
-    private final ArrayList<NodeLine> nodeLines = new ArrayList<>();
-    private final ArrayList<ArrayList<Point>> decoratorLines = new ArrayList<>(); // First slot in list reserved for line that moves with user's mouse
+    private ArrayList<Component> nodes = new ArrayList<>();
+    private ArrayList<NodeLine> nodeLines = new ArrayList<>();
+    private ArrayList<ArrayList<Point>> decoratorLines = new ArrayList<>(); // First slot in list reserved for line that moves with user's mouse
     private String currentNodeConnectionType = "None";
-    private final HashMap<String, CodeSections> classCodeMap = new HashMap<>();
+    private HashMap<String, CodeSections> classCodeMap = new HashMap<>();
 
     protected Blackboard() {
         super(new Object());
@@ -95,8 +95,44 @@ public class Blackboard extends PropertyChangeSupport {
         return nodes;
     }
 
+    /**
+     * Returns Class specific code for printing in codeArea
+     * */
+
     public HashMap<String, CodeSections> getClassCode() {
         return classCodeMap;
+    }
+
+    /**
+     * Sets ArrayList of Components
+     * */
+
+    public void setNodes(ArrayList<Component> nodes) {
+        this.nodes = nodes;
+    }
+
+    /**
+     * Sets classCode HashMap
+     * */
+
+    public void setClassCode(HashMap<String, CodeSections> classCodeMap) {
+        this.classCodeMap = classCodeMap;
+    }
+
+    /**
+     * Sets ArrayList of NodeLine
+     * */
+
+    public void setNodeLines(ArrayList<NodeLine> nodeLines) {
+        this.nodeLines = nodeLines;
+    }
+
+    /**
+     * Sets ArrayList of decoratorLines
+     * */
+
+    public void setDecoratorLines(ArrayList<ArrayList<Point>> decoratorLines) {
+        this.decoratorLines = decoratorLines;
     }
 
     /**
@@ -218,6 +254,19 @@ public class Blackboard extends PropertyChangeSupport {
 
     public void setCurrentNodeConnectionType(String currentNodeConnectionType) {
         this.currentNodeConnectionType = currentNodeConnectionType;
+    }
+
+    /**
+     * Clears data in repository
+     */
+
+    public void clearBlackboard(){
+
+        nodes.clear();
+        nodeLines.clear();
+        decoratorLines.clear();
+        classCodeMap.clear();
+
     }
 
     /**

@@ -72,6 +72,42 @@ public class CodeArea extends JPanel {
 
     }
 
+    /*
+    * Sets boolean flag for Thread
+    * */
+
+    public void setIsRunPressed(boolean isRunPressed){
+        this.isRunPressed = isRunPressed;
+    }
+
+    /*
+    * Returns Thread
+    * */
+
+    public Thread getHyperLinkListenerThread(){
+        return hyperLinkListenerThread;
+    }
+
+    /**
+     * Returns sourceCodeText
+     * */
+
+    public JTextArea getSourceCodeText(){
+        return sourceCodeText;
+    }
+
+    /*
+    * Returns directoryText
+    * */
+
+    public JTextPane getDirectoryText(){
+        return directoryText;
+    }
+
+    /*
+    * Sets hyperlink contents in directoryText
+    * */
+
     private String setDirectoryLinks(){
 
         String htmlString = "";
@@ -87,12 +123,13 @@ public class CodeArea extends JPanel {
         }
         htmlString += "</a></html>";
 
-        System.out.println(htmlString);
-
         return htmlString;
 
     }
 
+    /*
+    * Starts Thread listening for hyperlink activity
+    * */
 
     private void startThread(){
         hyperLinkListenerThread = new Thread(() -> {

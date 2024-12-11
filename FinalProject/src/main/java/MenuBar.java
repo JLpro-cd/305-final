@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileNotFoundException;
 
 /**
  * Menu at the top of the program which holds various options and calls methods accordingly
@@ -15,21 +16,21 @@ public class MenuBar extends JPanel {
     JButton toolsButton;
     JButton helpButton;
     private CodeArea codeArea;
+    private FileCode fileCode;
 
-    public MenuBar(CodeArea codeArea){
+    public MenuBar(CodeArea codeArea, FileCode fileCode) {
 
         this.codeArea = codeArea;
+        this.fileCode = fileCode;
         JPopupMenu fileMenu = new JPopupMenu("File");
 
         JMenuItem newItem = new JMenuItem("New...");
         JMenuItem openItem = new JMenuItem("Open...");
         JMenuItem saveAsItem = new JMenuItem("Save As...");
-        JMenuItem saveItem = new JMenuItem("Save");
 
         fileMenu.add(newItem);
         fileMenu.add(openItem);
         fileMenu.add(saveAsItem);
-        fileMenu.add(saveItem);
 
         JPopupMenu boxConnectorMenu = new JPopupMenu("Box Connector");
 
@@ -70,10 +71,6 @@ public class MenuBar extends JPanel {
         helpButton = new JButton("Help");
 
 
-        runItem.addActionListener(e -> {
-            codeArea.runResponse();
-        });
-
         fileButton.addActionListener(e -> fileMenu.show(fileButton, 0, fileButton.getHeight()));
         boxButton.addActionListener(e -> boxConnectorMenu.show(boxButton, 0, boxButton.getHeight()));
         toolsButton.addActionListener(e -> {
@@ -81,6 +78,33 @@ public class MenuBar extends JPanel {
 
         });
         helpButton.addActionListener(e -> helpMenu.show(helpButton, 0, helpButton.getHeight()));
+
+        runItem.addActionListener(e -> {
+            codeArea.runResponse();
+        });
+
+        aboutItem.addActionListener(e -> {
+            JOptionPane.showMessageDialog(this,"Written by Josue Lopez and Brendan Holt");
+        });
+
+        newItem.addActionListener(e -> {
+           fileCode.newFile();
+        });
+
+        saveAsItem.addActionListener(e -> {
+           String fileName = JOptionPane.showInputDialog(this, "Please enter name of file");
+           fileCode.fileSave(fileName);
+        });
+
+        openItem.addActionListener(e->{
+            String fileName = JOptionPane.showInputDialog(this, "Please enter name of file");
+            try {
+                fileCode.openFile(fileName);
+            } catch (FileNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
+
+        });
 
         setLayout(new FlowLayout(FlowLayout.LEFT));
 

@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.io.Serializable;
 
 /**
  * Represents a UML line connecting two classes (Nodes).
@@ -8,7 +9,7 @@ import java.awt.*;
  * @version 1.0
  */
 
-public class NodeLine {
+public class NodeLine implements Serializable {
     private String connectionType;
     private Point start;
     private Point end;

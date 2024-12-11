@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.io.Serializable;
 
 /**
  * Representation of a class in a UML diagram. Is decorated by Decorator's children, the concrete decorators.
@@ -8,7 +9,7 @@ import java.awt.*;
  * @version 1.0
  */
 
-public class Node extends Component {
+public class Node extends Component implements Serializable {
 
     private final Rectangle bounds;
     private String label;
