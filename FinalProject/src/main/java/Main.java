@@ -13,9 +13,10 @@ public class Main extends JFrame {
 
     public static void main(String[] args) {
         Main main = new Main();
+        Toolkit tk = Toolkit.getDefaultToolkit();
         main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         main.setTitle("Project Builder");
-        main.setSize(1600, 900);
+        main.setSize((int) tk.getScreenSize().getWidth(), (int) tk.getScreenSize().getHeight());
         main.setLocationRelativeTo(null);
         main.setResizable(false);
         main.setVisible(true);
