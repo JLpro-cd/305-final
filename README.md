@@ -1,7 +1,8 @@
 # 305 Final Project by Josue Lopez and Brendan Holt
 
 ## UML Diagram
-![image](https://github.com/user-attachments/assets/55793a2b-ca81-4489-aade-f4b95c4747ff)
+![image](https://github.com/user-attachments/assets/0dbac10e-5486-4a5d-ace0-60ac8c98e900)
+
 
 
 
