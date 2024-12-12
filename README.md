@@ -1,7 +1,8 @@
 # 305 Final Project by Josue Lopez and Brendan Holt
 
 ## UML Diagram
-![image](https://github.com/user-attachments/assets/ef020096-ebbf-4a3c-962c-476e6f5f075b)
+![image](https://github.com/user-attachments/assets/67e18f4d-6c5a-4361-9632-a54fcd508575)
+
 
 ## Instructions to Run Program
 Step 1) Ensure you have the latest version of Java JDK/JRE installed --> [Java JDK/JRE](https://www.oracle.com/java/technologies/downloads/)
